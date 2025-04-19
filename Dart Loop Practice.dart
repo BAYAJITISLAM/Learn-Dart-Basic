@@ -1,4 +1,3 @@
-import 'dart:io';
 
 void main() {
   // Fitness Tracker – Calories Burned
