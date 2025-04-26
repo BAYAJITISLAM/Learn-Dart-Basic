@@ -186,7 +186,6 @@ void main() {
 
   print("Outing ${i + 1}: Total Bill = ₹$bill, Tip = ₹${tip.toStringAsFixed(2)}, Each Pays = ₹${oneFriendsBill.toStringAsFixed(2)}");
 
-
     perfriendsbil += oneFriendsBill;
     totalTip += tip;
 
