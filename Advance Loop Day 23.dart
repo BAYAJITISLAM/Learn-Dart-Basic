@@ -1,4 +1,3 @@
-
 void main() {
   // Daily Step Tracker
   List<int> steps = [5000, 8500, 3000, 10000, 4000];
@@ -316,7 +315,6 @@ void main() {
   ];
 
   for (int i = 0; i < aattendance.length; i++) {
-
     if (aattendance[i]["present"] == true) {
       present_++;
     } else {
@@ -336,4 +334,165 @@ void main() {
     print("Too Many Absents!");
   }
   print(warning);
+
+  print("\nAdvanced Savings Tracker Challenge");
+
+  List<Map<String, dynamic>> savings_2 = [
+    {"day": "Mon", "saved": 100, "goal": 150},
+    {"day": "Tue", "saved": 160, "goal": 150},
+    {"day": "Wed", "saved": 120, "goal": 150},
+    {"day": "Thu", "saved": 150, "goal": 150},
+    {"day": "Fri", "saved": 180, "goal": 150},
+    {"day": "Sat", "saved": 90, "goal": 150},
+  ];
+  dynamic totalSaving = 0;
+  dynamic totalAchieve = 0;
+  dynamic TotalGoal = 0;
+  dynamic maxSaved = savings_2[0]["saved"];
+  dynamic bestSavedDay = savings_2[0]["day"];
+
+  for (var saving in savings_2) {
+    totalSaving += saving["saved"]; // total saving
+    TotalGoal += saving["goal"];
+    if (saving["goal"] > saving["saved"]) {
+      print(" ${saving["day"]} Day Miss Your Goal  ");
+    }
+    if (saving["goal"] <= saving["saved"]) {
+      totalAchieve++;
+    }
+    if (saving["saved"] > maxSaved) {
+      maxSaved = saving["saved"];
+      bestSavedDay = saving["day"];
+    }
+    if (saving["saved"] == saving["goal"]) {
+      print("Exact Saving Match ${saving["day"]} Day");
+    }
+  }
+  print("Total Saving ${totalSaving} Taka");
+  print("Total Goal Achieve $totalAchieve Day");
+  print("Highest Save $maxSaved Taka $bestSavedDay Day");
+  if (totalSaving >= TotalGoal) {
+    print("Extra Saving: ${totalSaving - TotalGoal} Taka");
+  } else {
+    print("Short Saving: ${TotalGoal - totalSaving} Taka");
+  }
+
+  //Weekly Productivity Evaluator
+  print("\nWeekly Productivity Evaluator");
+
+  List<Map<String, dynamic>> productivity = [
+    {"day": "Mon", "tasksDone": 5, "target": 5},
+    {"day": "Tue", "tasksDone": 6, "target": 5},
+    {"day": "Wed", "tasksDone": 7, "target": 5},
+    {"day": "Thu", "tasksDone": 6, "target": 5},
+    {"day": "Fri", "tasksDone": 6, "target": 5},
+    {"day": "Sat", "tasksDone": 6, "target": 5},
+  ];
+
+  dynamic totalTask = 0;
+  int consecutiveFail = 0;
+  int DayMiss = 0;
+
+  for (var task in productivity) {
+    totalTask += task["tasksDone"];
+
+    if (task["target"] > task["tasksDone"]) {
+      print('Minimum Task Not Complete ${task["day"]} Day');
+      consecutiveFail++;
+      DayMiss++;
+
+      if (consecutiveFail == 3) {
+        print(" 3 Consecutive Low-Performance Days!");
+      }
+    } else {
+      consecutiveFail = 0;
+      if (task["target"] < task["tasksDone"]) {
+        print("${task["day"]} Bonus Day");
+      }
+    }
+  }
+  print("Total Task $totalTask");
+  if (DayMiss == 0) {
+    print("Parfect Week");
+  }
+
+  //Weekly Expense Tracker
+  print("\nWeekly Expense Tracker");
+
+  List<Map<String, dynamic>> expenses_2 = [
+    {"day": "Mon", "spent": 100, "goal": 150},
+    {"day": "Tue", "spent": 180, "goal": 150},
+    {"day": "Wed", "spent": 120, "goal": 150},
+    {"day": "Thu", "spent": 140, "goal": 150},
+    {"day": "Fri", "spent": 160, "goal": 150},
+    {"day": "Sat", "spent": 200, "goal": 150},
+  ];
+
+  dynamic totalSpent = 0;
+  dynamic totalGoal = 0;
+
+  for (var dayData in expenses_2) {
+    totalSpent += dayData['spent'];
+    totalGoal += dayData['goal'];
+
+    if (dayData['goal'] < dayData['spent']) {
+      print(
+        "${dayData["day"]} Over Budget Day - Extra ${dayData['spent'] - dayData['goal']} ",
+      );
+    }
+    if (dayData['goal'] > dayData['spent']) {
+      print(
+        "${dayData["day"]} Under Budget Day - Save ${dayData['goal'] - dayData['spent']} ",
+      );
+    }
+  }
+  print("\n🔎 Total Spent: $totalSpent BDT");
+  print("🎯 Total Budget Goal: $totalGoal BDT");
+
+  if (totalSpent > totalGoal) {
+    print("Warning: Exceeded Budget!");
+  } else if (totalGoal > totalGoal) {
+    print("Warning: Under Budget!");
+  } else {
+    print("🎉 Perfect Budgeting! Spent exactly as planned");
+  }
+
+  //Task Completion Performance Tracker
+
+  print('\nTask Completion Performance Tracker');
+
+  List<Map<String, dynamic>> tasks = [
+    {"day": "Mon", "done": 5, "target": 5},
+    {"day": "Tue", "done": 4, "target": 5},
+    {"day": "Wed", "done": 6, "target": 5},
+    {"day": "Thu", "done": 3, "target": 5},
+    {"day": "Fri", "done": 7, "target": 5},
+    {"day": "Sat", "done": 4, "target": 5},
+    {"day": "Sun", "done": 5, "target": 5},
+  ];
+
+  int warningCons = 0;
+  dynamic totalDone = 0;
+  dynamic missed = 0;
+  dynamic target = 0;
+
+  for (var task in tasks) {
+    totalDone += task['done'];
+
+    if (task['target'] > task['done']) {
+      missed++;
+      warningCons++;
+      print("${task['day']} Not Complete");
+      if (warningCons == 3) {
+        print(' Warning: 3 Consecutive Low-Performance Days!');
+      }
+    } else {
+      warningCons = 0;
+      if (task['target'] < task['done']) {
+        target++;
+        print("${task['day']} Bonus Day");
+      }
+    }
+  }
+  print(" Total Done $totalDone Missed $missed Target $target");
 }
