@@ -495,4 +495,200 @@ void main() {
     }
   }
   print(" Total Done $totalDone Missed $missed Target $target");
+
+  //Monthly Attendance Analyzer
+  print("\n Monthly Attendance Analyzer");
+
+  List<Map<String, dynamic>> attendance_2 = [
+    {"name": "Sakib", "daysPresent": 22, "totalDays": 26},
+    {"name": "Rana", "daysPresent": 18, "totalDays": 26},
+    {"name": "Jui", "daysPresent": 25, "totalDays": 26},
+    {"name": "Nadim", "daysPresent": 20, "totalDays": 26},
+  ];
+
+  for (var attendance in attendance_2) {
+    double PercentageAttendance =
+        attendance["daysPresent"] / attendance["totalDays"] * 100;
+
+    if (PercentageAttendance >= 90) {
+      print(
+        "${attendance["name"]} ${PercentageAttendance.toStringAsFixed(2)}% Excellent Attendance ",
+      );
+    } else if (PercentageAttendance < 75) {
+      print(
+        "${attendance["name"]} ${PercentageAttendance.toStringAsFixed(2)}% Needs Improvement ",
+      );
+    }
+
+    print("${attendance["name"]} ${PercentageAttendance.toStringAsFixed(2)}% ");
+  }
+
+  //Weekly Sales Leaderboard
+
+  print("\n Weekly Sales Leaderboard");
+
+  List<Map<String, dynamic>> sales = [
+    {"day": "Mon", "sales": 1200},
+    {"day": "Tue", "sales": 850},
+    {"day": "Wed", "sales": 900},
+    {"day": "Thu", "sales": 1500},
+    {"day": "Fri", "sales": 1800},
+    {"day": "Sat", "sales": 700},
+  ];
+  dynamic weeklyTotal = 0;
+  dynamic topSales = sales[0]["sales"];
+  dynamic topsalesDay = sales[0]["day"];
+  dynamic MinSales = sales[0]["sales"];
+  dynamic minsalesDay = sales[0]["day"];
+
+  for (var sale in sales) {
+    weeklyTotal += sale["sales"];
+    if (topSales < sale["sales"]) {
+      topSales = sale["sales"];
+      topsalesDay = sale["day"];
+    } else if (sale["sales"] < MinSales) {
+      MinSales = sale["sales"];
+      minsalesDay = sale["day"];
+    }
+  }
+  print("Top Sales ${topsalesDay} : $topSales Taka");
+  print("Min Sales ${minsalesDay} : $MinSales Taka");
+  print("Weekly Total Sales = $weeklyTotal Taka");
+
+  //Fitness Tracker Analyzer
+
+  print("\n Fitness Tracker Analyzer");
+
+  List<Map<String, dynamic>> fitness = [
+    {"day": "Mon", "steps": 4000, "goal": 7000},
+    {"day": "Tue", "steps": 7200, "goal": 7000},
+    {"day": "Wed", "steps": 8000, "goal": 7000},
+    {"day": "Thu", "steps": 3000, "goal": 7000},
+    {"day": "Fri", "steps": 10000, "goal": 7000},
+    {"day": "Sat", "steps": 6800, "goal": 7000},
+    {"day": "Sun", "steps": 5000, "goal": 7000},
+  ];
+
+  int goalMiss = 0;
+  dynamic weeklyTotalSteps = 0;
+  int totalgoalAchieved = 0;
+
+  for (var fitnes in fitness) {
+    weeklyTotalSteps += fitnes['steps'];
+    if (fitnes["goal"] <= fitnes["steps"]) {
+      print("${fitnes['day']} Goal Achieved");
+      totalgoalAchieved++;
+      goalMiss = 0;
+    } else {
+      goalMiss++;
+      if (goalMiss == 2) {
+        print("Alert: $goalMiss-Day Drop!");
+      }
+    }
+  }
+  print("Weekly total steps $weeklyTotalSteps");
+  print("$totalgoalAchieved Day  Achieved Goal");
+
+  //Daily Bank Transaction Analyzer
+
+  print("\nDaily Bank Transaction Analyzer");
+
+  List<Map<String, dynamic>> transactions = [
+    {"day": "Mon", "deposit": 5000, "withdraw": 2000},
+    {"day": "Tue", "deposit": 3000, "withdraw": 3500},
+    {"day": "Wed", "deposit": 0, "withdraw": 4000},
+    {"day": "Thu", "deposit": 1000, "withdraw": 1500},
+    {"day": "Fri", "deposit": 6000, "withdraw": 1000},
+    {"day": "Sat", "deposit": 0, "withdraw": 3000},
+    {"day": "Sun", "deposit": 2000, "withdraw": 1000},
+  ];
+
+  dynamic balance = 0;
+  int nagativeDay = 0;
+
+  dynamic highBalance = 0;
+  dynamic highBalanceDay = 0;
+
+  dynamic totalDeposit = 0;
+  dynamic totalWithdrow = 0;
+
+  int consecutiveDays = 0;
+  int previwsDaysBalance = 0;
+
+  for (var trs in transactions) {
+    balance += trs['deposit'];
+    balance -= trs['withdraw'];
+
+    totalDeposit += trs['deposit'];
+    totalWithdrow += trs['withdraw'];
+
+    if (balance < 0) {
+      nagativeDay++;
+    }
+    if (highBalance < balance) {
+      highBalance = balance;
+      highBalanceDay = trs['day'];
+    }
+    if (balance < previwsDaysBalance) {
+      consecutiveDays++;
+      if (consecutiveDays == 3) {
+        print("Warning $consecutiveDays Days Decrese Balance");
+      }
+    } else {
+      consecutiveDays = 0;
+    }
+
+    previwsDaysBalance = balance;
+  }
+  print("Nagative Day $nagativeDay");
+  print("High  Balance $highBalanceDay $highBalance Taka");
+  print("Total Deposit This Week $totalDeposit Taka");
+  print("Total Withdraw This Wekk $totalWithdrow Taka");
+
+  //Grocery Expense Tracker
+
+  print("\nGrocery Expense Tracker");
+
+  List<Map<String, dynamic>> expenses_3 = [
+    {"day": "Mon", "amount": 850},
+    {"day": "Tue", "amount": 1200},
+    {"day": "Wed", "amount": 950},
+    {"day": "Thu", "amount": 1100},
+    {"day": "Fri", "amount": 670},
+    {"day": "Sat", "amount": 1340},
+    {"day": "Sun", "amount": 720},
+  ];
+
+  dynamic highExpense = expenses_3[0]["amount"];
+  dynamic highExpenseDay = expenses_3[0]["day"];
+
+  dynamic totalWeeklyExpense = 0;
+
+  dynamic consday = 0;
+  dynamic previwsDay = 0;
+
+  for (var exp in expenses_3) {
+    totalWeeklyExpense += exp["amount"];
+
+    if (highExpense < exp["amount"]) {
+      highExpense = exp['amount'];
+      highExpenseDay = exp['day'];
+    }
+    if (exp["amount"] > 1000) {
+      print(" ${exp["day"]} Day Expense Over 1000 Taka ${exp["amount"]} Taka");
+    }
+    if (previwsDay < exp['amount']) {
+      consday++;
+      if (consday == 3) {
+        print('⚠️ Spending Habit Aler');
+      }
+    } else {
+      consday = 1;
+    }
+
+    previwsDay = exp['amount'];
+  }
+
+  print('Hight Expense $highExpenseDay Day $highExpense  Taka');
+  print("Total Expense  $totalWeeklyExpense");
 }
