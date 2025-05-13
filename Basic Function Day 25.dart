@@ -29,10 +29,11 @@ dynamic studentanalyzeStudentPerformance(
       studyAlert++;
       if (studyAlert == 3) {
         print("⚠️ Study Alert for $studentName");
-      } else {
-        studyAlert = 0;
       }
+    } else {
+      studyAlert = 0;
     }
+
     previusNumber = number;
   }
   double avareage = (totalNumber / marks.length);
@@ -50,7 +51,31 @@ dynamic studentanalyzeStudentPerformance(
   }
 }
 
+//Sum Of 2 Number
+
+int sumOfNumber(int fristNumber, int secandNumber) {
+  return fristNumber + secandNumber;
+}
+
+//Find Even or Odd
+
+int evenOrOdd(int yourEvenOrOddNumber) {
+  return yourEvenOrOddNumber % 2;
+}
+
+//Factorial of a Number
+
+int factorialOfNumber(int inputFactorialNumber) {
+  int result = 1;
+
+  for (int i = 1; i <= inputFactorialNumber; i++) {
+    result *= i;
+  }
+  return result;
+}
+
 void main() {
+  print("\nStudent Weekly Mark");
   String studentName = "Bayajit";
 
   List<Map<String, dynamic>> marks = [
@@ -64,4 +89,30 @@ void main() {
   ];
 
   studentanalyzeStudentPerformance(studentName, marks);
+
+  print("\nSum Of 2 Number");
+
+  int firstNumber = 44;
+  int secandNumber = 33;
+  print(
+    "Sum Of $firstNumber + $secandNumber = ${sumOfNumber(firstNumber, secandNumber)}",
+  );
+
+  print("\nFind Even or Odd");
+
+  int numberEvenOdd = 55;
+
+  if (evenOrOdd(numberEvenOdd) == 0) {
+    print("Your Number $numberEvenOdd Is Even");
+  } else {
+    print("Your Number $numberEvenOdd Is Odd");
+  }
+
+  print("\nFactorial of a Number");
+  int userFactorialNumbr = 5;
+  print(
+    "Your Factorial Number $userFactorialNumbr = ${factorialOfNumber(userFactorialNumbr)}",
+  );
+
+  
 }
