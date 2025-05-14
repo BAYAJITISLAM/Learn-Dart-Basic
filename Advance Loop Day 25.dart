@@ -1549,4 +1549,8 @@ void main() {
   print("High Temperatue $highDay Day  $highTemDay Degree");
   print("Low Temperature $lowDay Day $lowTemDay Degree");
   print("Total Temperatur Sum = $totalTemperatureSum");
+
+
+
+  
 }

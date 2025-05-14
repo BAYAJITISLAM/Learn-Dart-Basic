@@ -74,6 +74,41 @@ int factorialOfNumber(int inputFactorialNumber) {
   return result;
 }
 
+//Palindrome Checker
+
+String palindromeChecker(String inputpalidromeNumber) {
+  String reversed = inputpalidromeNumber.split("").reversed.join();
+
+  if (inputpalidromeNumber == reversed) {
+    return "  This Numbe $inputpalidromeNumber is Palindrome";
+  } else {
+    return "This Number $inputpalidromeNumber  Not Palindrome Reverse Number  $reversed";
+  }
+}
+
+//Prime Number Check
+
+String primeNumberChecker(String inputPrime) {
+  int inputPrimeInt = int.parse(inputPrime);
+  List<int> primeNumber = [];
+
+  for (int number = 2; primeNumber.length < inputPrimeInt; number++) {
+    bool isPrime = true;
+
+    for (int i = 2; i < number; i++) {
+      if (number % i == 0) {
+        isPrime = false;
+        break;
+      }
+    }
+    if (isPrime) {
+      primeNumber.add(number);
+    }
+  }
+
+  return "First $inputPrime  Prime Number : $primeNumber";
+}
+
 void main() {
   print("\nStudent Weekly Mark");
   String studentName = "Bayajit";
@@ -114,5 +149,13 @@ void main() {
     "Your Factorial Number $userFactorialNumbr = ${factorialOfNumber(userFactorialNumbr)}",
   );
 
-  
+  print("\nPalindrome Checker");
+  String inputPalindromeNumber = "999";
+  String showResult = palindromeChecker(inputPalindromeNumber);
+  print(showResult);
+
+  print("\nPrime Number  Checker");
+  String inputUserPrime = "5";
+  String ShowPrimeNumber = primeNumberChecker(inputUserPrime);
+  print(ShowPrimeNumber);
 }
