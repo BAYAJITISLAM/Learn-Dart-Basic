@@ -109,6 +109,42 @@ String primeNumberChecker(String inputPrime) {
   return "First $inputPrime  Prime Number : $primeNumber";
 }
 
+//grocery Budget Tracker
+
+void groceryBudgetTracker(List<Map<String, dynamic>> items, int budget) {
+  dynamic remainingBalance = budget;
+  dynamic totalSpent = 0;
+  for (var item in items) {
+    dynamic itemName = item["item"];
+    dynamic itemPrice = item["price"];
+
+    if (remainingBalance >= itemPrice) {
+      print("-$itemName : $itemPrice Taka");
+      remainingBalance -= itemPrice;
+      totalSpent += itemPrice;
+    }
+  }
+  print("Total Spent : $totalSpent");
+  print("Remaining  : $remainingBalance");
+}
+
+// even odd and sum
+
+void evenOddSum(List<int> number) {
+  int evenSum = 0;
+  int oddSum = 0;
+  for (var num in number) {
+    if (num % 2 == 0) {
+      evenSum += num;
+    } else {
+      oddSum += num;
+    }
+  }
+
+  print('Even Number Sum = $evenSum');
+  print('Odd Number Sum = $oddSum');
+}
+
 void main() {
   print("\nStudent Weekly Mark");
   String studentName = "Bayajit";
@@ -158,4 +194,23 @@ void main() {
   String inputUserPrime = "5";
   String ShowPrimeNumber = primeNumberChecker(inputUserPrime);
   print(ShowPrimeNumber);
+
+  print("\ngrocery Budget Tracker");
+
+  List<Map<String, dynamic>> items = [
+    {"item": "Rice", "price": 50},
+    {"item": "Oil", "price": 120},
+    {"item": "Egg", "price": 30},
+    {"item": "Fish", "price": 180},
+    {"item": "Salt", "price": 20},
+  ];
+
+  int userBudget = 200;
+
+  groceryBudgetTracker(items, userBudget);
+
+  print("\nEven Or Odd Sum");
+  List<int> evenOdd = [7, 12, 19, 24, 33, 40, 55, 61];
+
+  evenOddSum(evenOdd);
 }
