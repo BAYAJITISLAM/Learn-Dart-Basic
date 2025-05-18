@@ -493,7 +493,7 @@ void main() {
     netselari += afterTaxSalari;
   }
   print("After Tax Five Month Net Selaros : $netselari");
-  print("Five Month Tax $totalTax");
+  print("Five Month Tax $totalTax_6");
 
    // Fuel Alert
   List<double> fuelLevel = [23.33, 23.32, 77.44, 34.34, 43.43];
