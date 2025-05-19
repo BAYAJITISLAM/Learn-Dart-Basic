@@ -1,6 +1,3 @@
-import 'dart:async';
-import 'dart:ffi';
-
 dynamic studentanalyzeStudentPerformance(
   String studentName,
   List<Map<String, dynamic>> marks,
@@ -263,6 +260,176 @@ void laptopList(Map<String, dynamic> allProduct) {
   print("Total: ৳$total");
 }
 
+Map<String, dynamic> mealOrder(
+  List<Map<String, dynamic>> selectedITEM1,
+  String mealName,
+  List<Map<String, dynamic>> selectedITEM2,
+  String drinks,
+) {
+  Map<String, dynamic> result = {};
+
+  for (var item1 in selectedITEM1) {
+    if (mealName == item1['name']) {
+      result["meal_name"] = item1['name'];
+      result["meal_price"] = item1['price'];
+    }
+  }
+  for (var item2 in selectedITEM2) {
+    if (drinks == item2["name"]) {
+      result['drinks_name'] = item2['name'];
+      result['drinks_price'] = item2['price'];
+    }
+  }
+  return result;
+}
+
+void priceMealAndDrinks(Map<String, dynamic> item) {
+  dynamic totalPrice = 0;
+
+  if (item.containsKey("meal_name")) {
+    print(" Meal : ${item["meal_name"]} = ${item["meal_price"]} Taka");
+    totalPrice += item["meal_price"];
+  }
+  if (item.containsKey("drinks_name")) {
+    print("Drinks  : ${item["drinks_name"]} = ${item["drinks_price"]} Taka ");
+    totalPrice += item["drinks_price"];
+  }
+  print("Total $totalPrice Taka");
+}
+
+Map<String, dynamic> PcBuildThreeItem(
+  List<Map<String, dynamic>> selectedCpus,
+  String nameCpus,
+  List<Map<String, dynamic>> selectedRams,
+  String nameRams,
+  List<Map<String, dynamic>> selectedGpus,
+  String nameGpus,
+) {
+  Map<String, dynamic> result = {};
+
+  for (var item in selectedCpus) {
+    if (nameCpus == item["name"]) {
+      result["cpu_name"] = item["name"];
+      result["cpu_price"] = item["price"];
+    }
+  }
+  for (var item in selectedRams) {
+    if (nameRams == item['name']) {
+      result['ram_name'] = item["name"];
+      result['ram_price'] = item["price"];
+    }
+  }
+  for (var item in selectedGpus) {
+    if (nameGpus == item["name"]) {
+      result['gpu_name'] = item['name'];
+      result['gput_price'] = item["price"];
+    }
+  }
+  return result;
+}
+
+void pcBuildThreeTotal(Map<String, dynamic> selectedItem) {
+  dynamic totalPrice = 0;
+
+  if (selectedItem.containsKey("cpu_name")) {
+    print(
+      "Cpu : ${selectedItem['cpu_name']} = ${selectedItem['cpu_price']} Taka",
+    );
+    totalPrice += selectedItem['cpu_price'];
+  }
+  if (selectedItem.containsKey("ram_name")) {
+    print(
+      "Ram : ${selectedItem['ram_name']} = ${selectedItem['ram_price']} Taka",
+    );
+    totalPrice += selectedItem['ram_price'];
+  }
+  if (selectedItem.containsKey("gpu_name")) {
+    print(
+      "Gpu : ${selectedItem['gpu_name']} = ${selectedItem['gput_price']} Taka",
+    );
+    totalPrice += selectedItem['gput_price'];
+  }
+  print("Total Price  $totalPrice");
+}
+
+Map<String, dynamic> groceryFunction(
+  List<Map<String, dynamic>> catagory,
+  String item1,
+  String item2,
+) {
+  Map<String, dynamic> result = {};
+
+  for (var itemC in catagory) {
+    if (itemC['name'] == item1) {
+      result['item1_name'] = itemC['name'];
+      result['item1_price'] = itemC['price'];
+    }
+    if (itemC['name'] == item2) {
+      result['item2_name'] = itemC['name'];
+      result['item2_price'] = itemC['price'];
+    }
+  }
+  return result;
+}
+
+void grocerAddition(Map<String, dynamic> SelectedProduct) {
+  dynamic totalPrice = 0;
+  var item1Name;
+  var item1Price;
+  var item2Name;
+  var item2Price;
+
+  if (SelectedProduct.containsKey("item1_name")) {
+    item1Name = SelectedProduct['item1_name'];
+    item1Price = SelectedProduct['item1_price'];
+    totalPrice += SelectedProduct['item1_price'];
+  }
+  if (SelectedProduct.containsKey("item2_name")) {
+    item2Name = SelectedProduct['item2_name'];
+    item2Price = SelectedProduct['item2_price'];
+    totalPrice += SelectedProduct["item2_price"];
+  }
+  print("Selected item : $item1Name = $item1Price & $item2Name = $item2Price");
+  if (item1Name == "rice" && item2Name == "oil") {
+    print("Your Are Availabe 10% Discount ");
+    print("Total  Price : ${totalPrice * 0.90}");
+  } else {
+    print("Total Price : $totalPrice");
+  }
+}
+
+Map<String, dynamic> bookStoreSummary(
+  List<Map<String, dynamic>> ProductType,
+  List<String> SelectedItem,
+) {
+  Map<String, dynamic> result = {};
+
+  int count = 1;
+
+  for (var pt in ProductType) {
+    if (SelectedItem.contains(pt['name'])) {
+      result["item${count}_name"] = pt['name'];
+      result["item${count}_price"] = pt['price'];
+      count++;
+    }
+  }
+  return result;
+}
+
+void bookStoreOrder(Map<String, dynamic> selectedItems) {
+  dynamic totalPrice = 0;
+
+  print("🛒 Selected Books:");
+  for (int i = 1; i <= selectedItems.length ~/ 2; i++) {
+    String name = selectedItems['item${i}_name'];
+    dynamic price = selectedItems['item${i}_price'];
+    print("📘 Book: $name (৳ $price)");
+    totalPrice += price;
+  }
+
+  print("💰 Total Price: ৳ $totalPrice");
+}
+
 void main() {
   print("\nStudent Weekly Mark");
   String studentName = "Bayajit";
@@ -391,4 +558,69 @@ void main() {
 
   var NewLapTopMap = LaptopSelect(cpuList, "i5", storageList, "256GB SSD");
   laptopList(NewLapTopMap);
+
+  print("\nRestaurant Meal Order");
+  List<Map<String, dynamic>> meals = [
+    {"name": "burger", "price": 120},
+    {"name": "pizza", "price": 300},
+    {"name": "pasta", "price": 220},
+  ];
+
+  List<Map<String, dynamic>> drinks = [
+    {"name": "coke", "price": 40},
+    {"name": "coffee", "price": 100},
+    {"name": "juice", "price": 80},
+  ];
+
+  var orderMeal = mealOrder(meals, "pizza", drinks, "coffee");
+  priceMealAndDrinks(orderMeal);
+
+  print("\n3-item Combo Selection");
+  List<Map<String, dynamic>> cpus = [
+    {"name": "Ryzen 3", "price": 10000},
+    {"name": "Ryzen 5", "price": 15000},
+  ];
+
+  List<Map<String, dynamic>> rams = [
+    {"name": "8GB", "price": 3000},
+    {"name": "16GB", "price": 6000},
+  ];
+
+  List<Map<String, dynamic>> gpus = [
+    {"name": "GTX 1050", "price": 8000},
+    {"name": "GTX 1650", "price": 12000},
+  ];
+
+  pcBuildThreeTotal(
+    PcBuildThreeItem(cpus, "Ryzen 3", rams, "16GB", gpus, "GTX 1650"),
+  );
+
+  print("\n Grocery Combo Discount");
+  List<Map<String, dynamic>> groceryItems1 = [
+    {"name": "rice", "price": 100},
+    {"name": "oil", "price": 200},
+    {"name": "salt", "price": 50},
+  ];
+  String userChoice1 = "rice";
+  String userChoice2 = "salt";
+
+  var groccery = groceryFunction(groceryItems1, userChoice1, userChoice2);
+  grocerAddition(groccery);
+
+  print("\nBook Store Order Summary");
+  List<Map<String, dynamic>> books = [
+    {"name": "English Grammar", "price": 300},
+    {"name": "Bangla Kobita", "price": 250},
+    {"name": "Math Solution", "price": 500},
+    {"name": "Science Facts", "price": 400},
+  ];
+
+  List<String> booksSelect = [
+    "English Grammar",
+    "Math Solution",
+    "Science Facts",
+  ];
+
+  var book = bookStoreSummary(books, booksSelect);
+  bookStoreOrder(book);
 }
