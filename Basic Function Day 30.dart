@@ -1,5 +1,3 @@
-import 'dart:ffi';
-
 dynamic studentanalyzeStudentPerformance(
   String studentName,
   List<Map<String, dynamic>> marks,
@@ -479,7 +477,6 @@ Map<String, dynamic> gypPackageSelect(
       result['item2_name'] = dt['name'];
       result['item2_price'] = dt['price'];
     }
-    
   }
   return result;
 }
@@ -495,6 +492,99 @@ void gymDisplay(Map<String, dynamic> SelectedItem) {
   print("Total Price = $totalPrice");
 }
 
+//Mobile Recharge Combo
+List<Map<String, dynamic>> rechargePlans = [
+  {"name": "Minute Pack", "price": 50},
+  {"name": "Internet Pack", "price": 100},
+  {"name": "Combo Pack", "price": 150},
+];
+
+List<Map<String, dynamic>> bonusOffers = [
+  {"name": "Extra Data", "price": 20},
+  {"name": "Cashback", "price": 15},
+];
+
+String selectRechargePlans = "Internet Pack";
+String selectBonusOffer = "";
+
+void mobileRechargeCombo(
+  List<Map<String, dynamic>> rechargePlans,
+  String SelectRechargePlans,
+  List<Map<String, dynamic>> bonusOffers,
+  String SelectBonusOffer,
+) {
+  Map<String, dynamic> SelectedItem = {};
+
+  for (Map<String, dynamic> RP in rechargePlans) {
+    String plansName = RP['name'];
+    dynamic plansPrice = RP['price'];
+    if (plansName == SelectRechargePlans) {
+      SelectedItem['recharge_name'] = plansName;
+      SelectedItem['recharge_price'] = plansPrice;
+    }
+  }
+  for (Map<String, dynamic> bonusof in bonusOffers) {
+    String bonusOfferName = bonusof['name'];
+    dynamic bonusOfferPrice = bonusof['price'];
+    if (SelectBonusOffer == bonusOfferName) {
+      SelectedItem['bonus_name'] = bonusOfferName;
+      SelectedItem['bonus_price'] = bonusOfferPrice;
+    }
+  }
+
+  dynamic totalPrice = 0;
+
+  if (SelectedItem.containsKey("recharge_name")) {
+    totalPrice += SelectedItem["recharge_price"];
+    print(
+      "\nPlan : ${SelectedItem["recharge_name"]}  ${SelectedItem["recharge_price"]} Taka",
+    );
+  }
+  if (SelectedItem.containsKey("bonus_name")) {
+    totalPrice += SelectedItem['bonus_price'];
+    print(
+      "Bonus : ${SelectedItem['bonus_name']} ${SelectedItem['bonus_price']} Taka",
+    );
+  } else {
+    print("Bonus : None");
+  }
+
+  print("Total Price $totalPrice");
+}
+
+//Movie Ticket Booking
+List<Map<String, dynamic>> ticketTypes = [
+  {"name": "Regular", "price": 200},
+  {"name": "Premium", "price": 350},
+  {"name": "VIP", "price": 500},
+];
+
+String SelectedTicket = "Regular";
+int quantity = 3;
+
+void movieTicketBoking(
+  List<Map<String, dynamic>> ticketTypes,
+  String SelectedTicket,
+  int quantity,
+) {
+  Map<String, dynamic> Ticket = {};
+
+  for (Map<String, dynamic> tt in ticketTypes) {
+    String ticketName = tt['name'];
+    dynamic tickePrice = tt['price'];
+    if (ticketName == SelectedTicket) {
+      Ticket['name'] = ticketName;
+      Ticket['price'] = tickePrice;
+    }
+  }
+  dynamic totalPrice = 0;
+  if (Ticket.containsKey("name")) {
+    totalPrice = (Ticket['price'] * quantity);
+    print("\nTicket Type : ${Ticket['name']} ${Ticket['price']} Taka");
+  }
+  print("Quantity : $quantity");
+  print("Total $totalPrice Taka");
+}
 void main() {
   print("\nStudent Weekly Mark");
   String studentName = "Bayajit";
@@ -718,9 +808,18 @@ void main() {
     {"name": "advanced", "price": 3000},
   ];
 
-  var displaygyp = gypPackageSelect(membership, "half-yearly", dietPlan, "basic");
-
+  var displaygyp = gypPackageSelect(
+    membership,
+    "half-yearly",
+    dietPlan,
+    "basic",
+  );
   gymDisplay(displaygyp);
-
-  
+  mobileRechargeCombo(
+    rechargePlans,
+    selectRechargePlans,
+    bonusOffers,
+    selectBonusOffer,
+  );
+  movieTicketBoking(ticketTypes, SelectedTicket, quantity);
 }
