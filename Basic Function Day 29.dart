@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 dynamic studentanalyzeStudentPerformance(
   String studentName,
   List<Map<String, dynamic>> marks,
@@ -430,6 +432,69 @@ void bookStoreOrder(Map<String, dynamic> selectedItems) {
   print("💰 Total Price: ৳ $totalPrice");
 }
 
+Map<String, dynamic> mobileAccessories(
+  List<Map<String, dynamic>> inputProductType,
+  List<String> inputItemName,
+) {
+  Map<String, dynamic> result = {};
+  int count = 1;
+  for (var product in inputProductType) {
+    if (inputItemName.contains(product["name"])) {
+      result["item${count}_name"] = product['name'];
+      result["item${count}_price"] = product['price'];
+      count++;
+    }
+  }
+  return result;
+}
+
+void mobileAccessorieResult(Map<String, dynamic> SelectedItem) {
+  dynamic totalPrice = 0;
+
+  for (int i = 1; i <= SelectedItem.length ~/ 2; i++) {
+    String itemName = SelectedItem["item${i}_name"];
+    dynamic itemPrice = SelectedItem["item${i}_price"];
+    print("Accessory:  $itemName ($itemPrice Taka)");
+    totalPrice += itemPrice;
+  }
+  print("Total Price : $totalPrice Taka");
+}
+
+Map<String, dynamic> gypPackageSelect(
+  List<Map<String, dynamic>> membership,
+  String selectMemebershipPlan,
+  List<Map<String, dynamic>> dietPlan,
+  String selectDietPlan,
+) {
+  Map<String, dynamic> result = {};
+
+  for (var ms in membership) {
+    if (selectMemebershipPlan == ms["name"]) {
+      result["item1_name"] = ms['name'];
+      result['item1_price'] = ms['price'];
+    }
+  }
+  for (var dt in dietPlan) {
+    if (selectDietPlan == dt["name"]) {
+      result['item2_name'] = dt['name'];
+      result['item2_price'] = dt['price'];
+    }
+    
+  }
+  return result;
+}
+
+void gymDisplay(Map<String, dynamic> SelectedItem) {
+  dynamic totalPrice = 0;
+
+  print(
+    "Membership :  ${SelectedItem['item1_name']}  ${SelectedItem['item1_price']}",
+  );
+  totalPrice += SelectedItem['item1_price'];
+
+  print("Total Price = $totalPrice");
+}
+
 void main() {
   print("\nStudent Weekly Mark");
   String studentName = "Bayajit";
@@ -623,4 +688,39 @@ void main() {
 
   var book = bookStoreSummary(books, booksSelect);
   bookStoreOrder(book);
+
+  print("\nMobile Accessories Cart");
+  List<Map<String, dynamic>> accessories = [
+    {"name": "charger", "price": 500},
+    {"name": "earphones", "price": 700},
+    {"name": "power bank", "price": 1200},
+    {"name": "USB cable", "price": 150},
+  ];
+
+  List<String> userChoiceMobileAccessorires = [
+    "charger",
+    "earphones",
+    "power bank",
+  ];
+
+  var mAR = mobileAccessories(accessories, userChoiceMobileAccessorires);
+  mobileAccessorieResult(mAR);
+
+  print("\nGym Membership Plan Selector");
+  List<Map<String, dynamic>> membership = [
+    {"name": "monthly", "price": 1200},
+    {"name": "half-yearly", "price": 6000},
+    {"name": "yearly", "price": 10000},
+  ];
+
+  List<Map<String, dynamic>> dietPlan = [
+    {"name": "basic", "price": 1500},
+    {"name": "advanced", "price": 3000},
+  ];
+
+  var displaygyp = gypPackageSelect(membership, "half-yearly", dietPlan, "basic");
+
+  gymDisplay(displaygyp);
+
+  
 }
