@@ -1,5 +1,7 @@
 //Gadget Accessories Order
 
+import 'dart:io';
+
 List<Map<String, dynamic>> accessories = [
   {"name": "mouse", "price": 500},
   {"name": "keyboard", "price": 1000},
@@ -307,6 +309,86 @@ void analyzeStudentResults(List<Map<String, dynamic>> students) {
   print("\n 🎉 Total Passed Students: $totalPassStudent");
 }
 
+//Grocery Inventory & Sales Tracker
+List<Map<String, dynamic>> inventory = [
+  {"name": "Rice", "price": 60, "stock": 100},
+  {"name": "Oil", "price": 150, "stock": 50},
+  {"name": "Sugar", "price": 80, "stock": 70},
+  {"name": "Salt", "price": 30, "stock": 40},
+];
+
+Map<String, List<Map<String, int>>> customerPurchases = {
+  "Alice": [
+    {"Rice": 5},
+    {"Oil": 2},
+  ],
+  "Bob": [
+    {"Sugar": 3},
+    {"Salt": 2},
+    {"Rice": 2},
+  ],
+  "Charlie": [
+    {"Oil": 1},
+    {"Sugar": 5},
+  ],
+};
+void processGrocerySales(
+  List<Map<String, dynamic>> inventory,
+  Map<String, List<Map<String, int>>> customerPurchases,
+) {
+  Map<String, List<Map<String, dynamic>>> customerOrders = {};
+
+  for (var cs in customerPurchases.entries) {
+    String customerName = cs.key;
+    List<Map<String, int>> customerSelectedProduct = cs.value;
+    customerOrders[customerName] = [];
+
+    for (var csp in customerSelectedProduct) {
+      csp.forEach((key, value) {
+        String itemname = key;
+        int itemQuantity = value;
+
+        for (var inv in inventory) {
+          dynamic inventoryItemName = inv['name'];
+          int inventoryItemPrice = inv["price"];
+          int inventoryItemStock = inv["stock"];
+
+          if (inventoryItemName == itemname) {
+            dynamic singleItemPrice = itemQuantity * inventoryItemPrice;
+            
+            customerOrders[customerName]!.add({
+              "item": inventoryItemName,
+              "price": singleItemPrice,
+              "quantity": itemQuantity,
+             
+            });
+          }
+        }
+      });
+    }
+  }
+  print("\n Grocery Inventory & Sales Tracker");
+
+  dynamic Grandtotalprice = 0;
+
+  for (var customerO in customerOrders.entries) {
+    print("\n🧾 Customer:${customerO.key}");
+    List<Map<String, dynamic>> productD = customerO.value;
+    dynamic totalPrice = 0;
+    for (var prod in productD) {
+      String name = prod['item'];
+      dynamic price = prod['price'];
+      dynamic quantity = prod['quantity'];
+      dynamic stock = prod['stock'];
+      Grandtotalprice += price;
+      totalPrice += price;
+      print("$name x $quantity = $price");
+    }
+    print("Total Price $totalPrice");
+  }
+  print("\nGrand Total Price $Grandtotalprice");
+}
+
 void main() {
   gadget(accessories, selectedItemsGadget);
   foodOrderSummary(foodItems, selectedFoods);
@@ -315,4 +397,5 @@ void main() {
   generateRestaurantBillSummary(foodItemsMc, customerOrdersMc);
   generateSalaryReport(employees, workedHours);
   analyzeStudentResults(students);
+  processGrocerySales(inventory, customerPurchases);
 }
