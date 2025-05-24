@@ -1,6 +1,6 @@
 //Gadget Accessories Order
 
-import 'dart:io';
+import 'dart:async';
 
 List<Map<String, dynamic>> accessories = [
   {"name": "mouse", "price": 500},
@@ -20,6 +20,7 @@ void gadget(
   for (var acc in accessories) {
     String name = acc['name'];
     dynamic price = acc['price'];
+
     if (selectedItemsGadget.contains(name)) {
       AllProductSelect['item${count}_name'] = name;
       AllProductSelect['item${count}_price'] = price;
@@ -28,6 +29,7 @@ void gadget(
   }
   print('\nSelected Item');
   dynamic totalPrice = 0;
+
   for (int i = 1; i < count; i++) {
     dynamic productName = AllProductSelect['item${i}_name'];
     dynamic productPrice = AllProductSelect['item${i}_price'];
@@ -101,6 +103,7 @@ void movieTicketBoking01(
   for (var time in timeSlots) {
     var timeName = time['name'];
     var timePrice = time['price'];
+
     if (timeName == selectedSlot) {
       SelectedServicesAndTime['slot_name'] = timeName;
       SelectedServicesAndTime['slot_price'] = timePrice;
@@ -109,6 +112,7 @@ void movieTicketBoking01(
   for (var vips in vipServices) {
     var vipName = vips['name'];
     var VipPrice = vips['price'];
+
     if (selectedVip == vipName) {
       SelectedServicesAndTime['vipName'] = vipName;
       SelectedServicesAndTime['vipPrice'] = VipPrice;
@@ -152,6 +156,7 @@ void onlineCourseEnrollment(List<Map<String, dynamic>> courses) {
   for (var course in courses) {
     var courseName = course['name'];
     var coursePrice = course['price'];
+
     if (selectedCourses.contains(courseName)) {
       SelectedEnrollment['item_${count}_name'] = courseName;
       SelectedEnrollment['item_${count}_price'] = coursePrice;
@@ -199,6 +204,7 @@ void generateRestaurantBillSummary(
     for (var food in foodItemsMc) {
       String foodName = food['name'];
       dynamic foodPrice = food['price'];
+
       if (customerOrder.contains(foodName)) {
         foodItems[customerName]!.add({"name": foodName, "price": foodPrice});
       }
@@ -212,6 +218,7 @@ void generateRestaurantBillSummary(
     dynamic customerOrder = food.value;
     print("🧾 Customer Name : $customerName");
     dynamic totalprice = 0;
+
     for (var order in customerOrder) {
       print("${order['name']} - ${order["price"]} Taka");
       totalprice += order['price'];
@@ -240,16 +247,20 @@ void generateSalaryReport(
 ) {
   print("\nEmployee Work Report & Salary Calculator");
   int grandTotal = 0;
+
   for (var work in workedHours.entries) {
     String employeName = work.key;
     List<int> employeHour = work.value;
+
     for (var employe in employees) {
       String name = employe['name'];
       dynamic rate = employe['rate'];
+
       if (name == employeName) {
         print("\n👨‍💼 Employee : $name");
         print("Daily Hours  :  $employeHour");
         dynamic totalHours = 0;
+
         for (int i = 0; i < employeHour.length; i++) {
           totalHours += employeHour[i];
         }
@@ -281,13 +292,16 @@ List<Map<String, dynamic>> students = [
 void analyzeStudentResults(List<Map<String, dynamic>> students) {
   print("\nStudent Exam Result Analyzer");
   int totalPassStudent = 0;
+
   for (var std in students) {
     String name = std['name'];
     List<int> marks = std['marks'];
     double average = 0;
     int countFail = 0;
+
     for (int i = 0; i < marks.length; i++) {
       average += marks[i] / marks.length;
+
       if (marks[i] < 40) {
         countFail++;
       } else {}
@@ -336,6 +350,7 @@ void processGrocerySales(
   List<Map<String, dynamic>> inventory,
   Map<String, List<Map<String, int>>> customerPurchases,
 ) {
+  print("\nGrocery Inventory & Sales Tracker");
   Map<String, List<Map<String, dynamic>>> customerOrders = {};
 
   for (var cs in customerPurchases.entries) {
@@ -349,18 +364,14 @@ void processGrocerySales(
         int itemQuantity = value;
 
         for (var inv in inventory) {
-          dynamic inventoryItemName = inv['name'];
-          int inventoryItemPrice = inv["price"];
-          int inventoryItemStock = inv["stock"];
+          if (inv['name'] == itemname) {
+            dynamic singleItemPrice = itemQuantity * inv['price'];
+            inv['stock'] -= itemQuantity;
 
-          if (inventoryItemName == itemname) {
-            dynamic singleItemPrice = itemQuantity * inventoryItemPrice;
-            
             customerOrders[customerName]!.add({
-              "item": inventoryItemName,
+              "item": inv['name'],
               "price": singleItemPrice,
               "quantity": itemQuantity,
-             
             });
           }
         }
@@ -375,18 +386,119 @@ void processGrocerySales(
     print("\n🧾 Customer:${customerO.key}");
     List<Map<String, dynamic>> productD = customerO.value;
     dynamic totalPrice = 0;
+
     for (var prod in productD) {
       String name = prod['item'];
       dynamic price = prod['price'];
       dynamic quantity = prod['quantity'];
-      dynamic stock = prod['stock'];
       Grandtotalprice += price;
       totalPrice += price;
       print("$name x $quantity = $price");
     }
+
     print("Total Price $totalPrice");
   }
+
+  print("\n  Final Stock");
+
+  for (var item in inventory) {
+    String itemName = item['name'];
+    dynamic itemStock = item['stock'];
+    print("$itemName : $itemStock");
+  }
+
   print("\nGrand Total Price $Grandtotalprice");
+}
+
+//Online Course Progress Tracker
+List<Map<String, dynamic>> coursesOnline = [
+  {"course": "Flutter Basics", "totalLessons": 20},
+  {"course": "Web Development", "totalLessons": 25},
+  {"course": "UI/UX Design", "totalLessons": 15},
+];
+
+List<Map<String, dynamic>> studentsOnline = [
+  {"name": "Alice", "course": "Flutter Basics", "completed": 18},
+  {"name": "Bob", "course": "Web Development", "completed": 16},
+  {"name": "Charlie", "course": "UI/UX Design", "completed": 15},
+];
+void trackCourseProgress(
+  List<Map<String, dynamic>> coursesOnline,
+  List<Map<String, dynamic>> studentsOnline,
+) {
+  print("\nOnline Course Progress Tracker");
+  int readyForCertificate = 0;
+
+  for (var so in studentsOnline) {
+    String studentName = so["name"];
+    dynamic selectedCourse = so['course'];
+    dynamic completedLesson = so['completed'];
+
+    for (var co in coursesOnline) {
+      String courseName = co['course'];
+      dynamic totalLesson = co['totalLessons'];
+
+      if (selectedCourse == courseName) {
+        print("\n👩‍🎓 Student: $studentName");
+        print("📘 Course: $courseName");
+
+        double completion = (completedLesson / totalLesson) * 100;
+        print(
+          "✅ Completed: $completedLesson / $totalLesson (${completion.toStringAsFixed(1)}%)",
+        );
+
+        if (completion >= 80) {
+          print("✅ Ready for Certificate");
+          readyForCertificate++;
+        } else {
+          print("⏳ In Progress");
+        }
+      }
+    }
+  }
+
+  print("\n🎓 Total Ready for Certificate:$readyForCertificate");
+}
+
+//Event Management System (with Guest Tracker)
+List<Map<String, dynamic>> events = [
+  {
+    "event": "Flutter Workshop",
+    "capacity": 3,
+    "guests": ["Alice", "Bob", "Charlie"],
+  },
+  {
+    "event": "UI/UX Bootcamp",
+    "capacity": 4,
+    "guests": ["David", "Bayajit Islam"],
+  },
+  {
+    "event": "Web Dev Seminar",
+    "capacity": 2,
+    "guests": ["Eva", "Frank"],
+  },
+];
+void trackEventGuests(List<Map<String, dynamic>> events) {
+  print("\nEvent Management System (with Guest Tracker)");
+  int tRg = 0;
+
+  for (var event in events) {
+    String eventName = event['event'];
+    int eventCapacity = event['capacity'];
+    List<String> eventquests = event['guests'];
+    print("\n📋 Event:$eventName");
+    print(
+      "👥 Registered (${eventquests.length} / $eventCapacity) : ${eventquests.join(",")} ",
+    );
+    tRg += eventquests.length;
+
+    if (eventquests.length == eventCapacity) {
+      print("✅ Status: Fully Booked");
+    } else {
+      print("🟡 Status: Open for Registration");
+    }
+  }
+  print("\n🎯 Total Registered Guests: $tRg");
 }
 
 void main() {
@@ -398,4 +510,6 @@ void main() {
   generateSalaryReport(employees, workedHours);
   analyzeStudentResults(students);
   processGrocerySales(inventory, customerPurchases);
+  trackCourseProgress(coursesOnline, studentsOnline);
+  trackEventGuests(events);
 }
