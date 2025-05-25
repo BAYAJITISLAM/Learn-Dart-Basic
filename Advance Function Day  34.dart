@@ -1,6 +1,6 @@
 //Gadget Accessories Order
 
-import 'dart:async';
+import 'dart:math';
 
 List<Map<String, dynamic>> accessories = [
   {"name": "mouse", "price": 500},
@@ -501,6 +501,64 @@ void trackEventGuests(List<Map<String, dynamic>> events) {
   print("\n🎯 Total Registered Guests: $tRg");
 }
 
+//Freelancer Project & Payment Tracker
+List<Map<String, dynamic>> freelancers = [
+  {
+    "name": "Alice",
+    "projects": [
+      {"title": "Landing Page", "payment": 300, "status": "Completed"},
+      {"title": "Portfolio Website", "payment": 500, "status": "Ongoing"},
+    ],
+  },
+  {
+    "name": "Bob",
+    "projects": [
+      {"title": "Shopify Store", "payment": 400, "status": "Completed"},
+      {"title": "SEO Fixes", "payment": 200, "status": "Completed"},
+    ],
+  },
+  {
+    "name": "Charlie",
+    "projects": [
+      {"title": "Logo Design", "payment": 100, "status": "Ongoing"},
+    ],
+  },
+];
+void trackFreelancerProjects(List<Map<String, dynamic>> freelancers) {
+  print("\nFreelancer Project & Payment Tracker>");
+  dynamic grandTotal = 0;
+
+  for (var freelancer in freelancers) {
+    String name = freelancer['name'];
+    dynamic projectDe = freelancer['projects'];
+    print("\n👨‍💻 Freelancer: $name");
+    int howManyProjects = 0;
+    dynamic totalEarn = 0;
+    bool status = false;
+
+    for (var project in projectDe) {
+      String projectName = project['title'];
+      dynamic projectPrice = project['payment'];
+      String projectStatus = project['status'];
+      howManyProjects++;
+      totalEarn += projectPrice;
+
+      if (projectStatus == "Ongoing") {
+        status = true;
+      } else {
+        status = false;
+      }
+    }
+
+    grandTotal += totalEarn;
+    print("📁 Projects:$howManyProjects");
+    print("💰 Total Earned:$totalEarn");
+    print("🕒 Ongoing Projects: ${status ? "Yes" : "No"}");
+  }
+
+  print("\n🔢 Total Paid to Freelancers: $grandTotal");
+}
+
 void main() {
   gadget(accessories, selectedItemsGadget);
   foodOrderSummary(foodItems, selectedFoods);
@@ -512,4 +570,5 @@ void main() {
   processGrocerySales(inventory, customerPurchases);
   trackCourseProgress(coursesOnline, studentsOnline);
   trackEventGuests(events);
+  trackFreelancerProjects(freelancers);
 }
