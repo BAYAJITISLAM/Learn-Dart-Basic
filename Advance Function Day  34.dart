@@ -559,6 +559,171 @@ void trackFreelancerProjects(List<Map<String, dynamic>> freelancers) {
   print("\n🔢 Total Paid to Freelancers: $grandTotal");
 }
 
+// Library Book Borrow Tracker
+List<Map<String, dynamic>> libraryBooks = [
+  {"title": "Flutter 101", "author": "Mark", "copies": 3},
+  {"title": "Dart Mastery", "author": "John", "copies": 2},
+  {"title": "UI Design", "author": "Lisa", "copies": 1},
+];
+
+Map<String, List<String>> studentBorrows = {
+  "Alice": ["Flutter 101", "Dart Mastery"],
+  "Bob": ["Flutter 101"],
+  "Charlie": ["UI Design", "Flutter 101"],
+};
+void libraryBookBorrowTracker(
+  List<Map<String, dynamic>> libraryBooks,
+  Map<String, List<String>> studentBorrows,
+) {
+  print("\n 📚 Library Borrow Report");
+  print("\n");
+  dynamic totalBorrrow = 0;
+
+  for (var student in studentBorrows.entries) {
+    String studentName = student.key;
+    List<String> studentBookBorrowList = student.value;
+    print("👩‍🎓 $studentName borrowed ${studentBookBorrowList.length} books.");
+
+    for (var library in libraryBooks) {
+      String bookName = library['title'];
+
+      if (studentBookBorrowList.contains(bookName)) {
+        library['copies']--;
+        totalBorrrow++;
+      }
+    }
+  }
+  print("\n📘 Available Books:");
+
+  for (var library in libraryBooks) {
+    String bookName = library['title'];
+    dynamic bookLeft = library['copies'];
+    if (bookLeft > 0) {
+      print("- $bookName ($bookLeft Copies Left)");
+    }
+  }
+  print("\n📦 Total Books Borrowed:$totalBorrrow");
+}
+
+//Online Shopping Order Tracker
+List<Map<String, dynamic>> products = [
+  {"name": "Keyboard", "price": 1500, "stock": 5},
+  {"name": "Mouse", "price": 800, "stock": 3},
+  {"name": "Monitor", "price": 10000, "stock": 2},
+];
+
+List<Map<String, dynamic>> orders = [
+  {"customer": "Alice", "product": "Keyboard", "quantity": 2},
+  {"customer": "Bob", "product": "Monitor", "quantity": 1},
+  {
+    "customer": "Charlie",
+    "product": "Mouse",
+    "quantity": 4,
+  }, // Not enough stock
+  {"customer": "David", "product": "Keyboard", "quantity": 1},
+];
+
+void OnlineShoppingOrderTracker(
+  List<Map<String, dynamic>> products,
+  List<Map<String, dynamic>> orders,
+) {
+  print("\nOnline Shopping Order Tracker");
+  int succesfullOrder = 0;
+  int faildOrder = 0;
+
+  for (Map<String, dynamic> order in orders) {
+    String customerName = order['customer'];
+    String productName = order['product'];
+    dynamic productQunatity = order['quantity'];
+
+    for (Map<String, dynamic> product in products) {
+      String prodName = product['name'];
+      dynamic productPrice = product['price'];
+      dynamic productStrock = product['stock'];
+
+      if (productName == prodName) {
+        if (productStrock < productQunatity) {
+          print(
+            "❌ $customerName's order for $productName (x$productQunatity) failed due to insufficient stock- Stock Availabe $productStrock ",
+          );
+          faildOrder++;
+        } else {
+          print(
+            "✅ $customerName ordered $productName (x$productQunatity) - Total: ${productPrice * productQunatity} Taka",
+          );
+          succesfullOrder++;
+          product['stock'] -= productQunatity;
+        }
+      }
+    }
+  }
+  print("\n📦 Remaining Stock:");
+
+  for (var product in products) {
+    print("-  ${product['name']}: ${product['stock']}");
+  }
+
+  print("\n📊 Order Summary:");
+  print("✅ Successful Orders:$succesfullOrder");
+  print("❌ Failed Orders:$faildOrder");
+}
+
+//Monthly Budget & Expense Analyzer
+List<Map<String, dynamic>> users = [
+  {"name": "Alice", "income": 50000},
+  {"name": "Bob", "income": 40000},
+  {"name": "Charlie", "income": 30000},
+];
+
+Map<String, Map<String, int>> userExpenses = {
+  "Alice": {
+    "Rent": 20000,
+    "Groceries": 8000,
+    "Transport": 3000,
+    "Others": 4000,
+  },
+  "Bob": {"Rent": 15000, "Groceries": 7000, "Entertainment": 5000},
+  "Charlie": {"Groceries": 6000, "Transport": 4000, "Others": 3000},
+};
+void MonthlyBudgetExpenseAnalyzer(
+  List<Map<String, dynamic>> users,
+  Map<String, Map<String, int>> userExpenses,
+) {
+  print("\nMonthly Budget & Expense Analyzer");
+
+  for (var userExp in userExpenses.entries) {
+    String userName = userExp.key;
+    Map<String, dynamic> expenses = userExp.value;
+    dynamic totalExpenses = 0;
+    print("\n👤 $userName");
+    var mostExpensesCatagory = expenses.entries.cast<MapEntry<String, int>>().reduce(
+      (a, b) => (a.value as num) > (b.value as num) ? a : b,
+    );
+
+    for (var exp in expenses.entries) {
+      String catogoryName = exp.key;
+      dynamic catogotyExpenses = exp.value;
+      totalExpenses += catogotyExpenses;
+    }
+    dynamic saving;
+
+    for (var user in users) {
+      String name = user['name'];
+      dynamic income = user['income'];
+      if (name == userName) {
+        print("💰 Income :$income");
+        saving = income - totalExpenses;
+      }
+    }
+
+    print("💸 Total Expenses $totalExpenses");
+    print("💵 Savings:$saving");
+    print(
+      "🏷️ Most Expensive Category:${mostExpensesCatagory.key} (${mostExpensesCatagory.value})",
+    );
+  }
+}
+
 void main() {
   gadget(accessories, selectedItemsGadget);
   foodOrderSummary(foodItems, selectedFoods);
@@ -571,4 +736,7 @@ void main() {
   trackCourseProgress(coursesOnline, studentsOnline);
   trackEventGuests(events);
   trackFreelancerProjects(freelancers);
+  libraryBookBorrowTracker(libraryBooks, studentBorrows);
+  OnlineShoppingOrderTracker(products, orders);
+  MonthlyBudgetExpenseAnalyzer(users, userExpenses);
 }
