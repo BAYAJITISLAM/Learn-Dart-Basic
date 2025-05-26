@@ -1,5 +1,6 @@
 //Gadget Accessories Order
 
+import 'dart:async';
 import 'dart:math';
 
 List<Map<String, dynamic>> accessories = [
@@ -690,20 +691,41 @@ void MonthlyBudgetExpenseAnalyzer(
   Map<String, Map<String, int>> userExpenses,
 ) {
   print("\nMonthly Budget & Expense Analyzer");
+  dynamic combineExpenses = 0;
+  String topSaver = '';
+  int maxSaving = 0;
+
+  Map<String, dynamic> categoryTotals = {};
 
   for (var userExp in userExpenses.entries) {
     String userName = userExp.key;
     Map<String, dynamic> expenses = userExp.value;
     dynamic totalExpenses = 0;
+    String mostExpCat = '';
+    dynamic mostExpAmount = 0;
+
     print("\n👤 $userName");
-    var mostExpensesCatagory = expenses.entries.cast<MapEntry<String, int>>().reduce(
-      (a, b) => (a.value as num) > (b.value as num) ? a : b,
-    );
+
+    var mostExpensesCatagory = expenses.entries
+        .cast<MapEntry<String, int>>()
+        .reduce((a, b) => (a.value as num) > (b.value as num) ? a : b);
 
     for (var exp in expenses.entries) {
       String catogoryName = exp.key;
       dynamic catogotyExpenses = exp.value;
       totalExpenses += catogotyExpenses;
+      combineExpenses += catogotyExpenses;
+
+      if (catogotyExpenses > mostExpAmount) {
+        mostExpAmount = catogotyExpenses;
+        mostExpCat = catogoryName;
+      }
+      if (categoryTotals.containsKey(catogoryName)) {
+        categoryTotals[catogoryName] =
+            categoryTotals[catogoryName]! + catogotyExpenses;
+      } else {
+        categoryTotals[catogoryName] = catogotyExpenses;
+      }
     }
     dynamic saving;
 
@@ -715,13 +737,94 @@ void MonthlyBudgetExpenseAnalyzer(
         saving = income - totalExpenses;
       }
     }
-
+    if (saving > maxSaving) {
+      maxSaving = saving;
+      topSaver = userName;
+    }
     print("💸 Total Expenses $totalExpenses");
     print("💵 Savings:$saving");
     print(
       "🏷️ Most Expensive Category:${mostExpensesCatagory.key} (${mostExpensesCatagory.value})",
     );
   }
+
+  String topCategory = '';
+  dynamic topCategoryAmount = 0;
+  for (var entry in categoryTotals.entries) {
+    if (entry.value > topCategoryAmount) {
+      topCategory = entry.key;
+      topCategoryAmount = entry.value;
+    }
+  }
+  print("\n👑 Highest Saver: $topSaver ($maxSaving)");
+  print("📊 Total Combined Expenses:$combineExpenses");
+  print(
+    "🏆 Highest Spending Category Overall: $topCategory ($topCategoryAmount)",
+  );
+}
+
+// even or odd detector
+int numberevenorodd = 8;
+
+void isEven(int numberevenorodd) {
+  print("\nEven Or Odd Checker");
+  if (numberevenorodd / 2 == 0) {
+    print("$numberevenorodd  Even Number");
+  } else {
+    print("$numberevenorodd Odd Number");
+  }
+}
+
+//String Reverser
+String reversText(String textString) {
+  String revers = textString.split(' ').reversed.join();
+  return revers;
+}
+
+// Student Grade Summary
+
+List<Map<String, dynamic>> studentsGrade = [
+  {"name": "Rafi", "score": 85},
+  {"name": "Nila", "score": 72},
+  {"name": "Kamal", "score": 90},
+  {"name": "Sumi", "score": 64},
+];
+void studentGradeSummary(List<Map<String, dynamic>> studentsGrade) {
+  print("\nStudent Grade Summary");
+  dynamic totalClassScore = 0;
+
+  for (Map<String, dynamic> students in studentsGrade) {
+    String name = students['name'];
+    dynamic score = students['score'];
+    totalClassScore += score;
+
+    if (score >= 80) {
+      print("$name Score $score  Grade A");
+    } else if (score >= 70) {
+      print("$name Score $score Grade B");
+    } else {
+      print("$name Score $score Grade C");
+    }
+  }
+  double avarageClassScore = (totalClassScore / studentsGrade.length);
+  print("\nClass Average:$avarageClassScore");
+}
+
+// Daily Expense Tracker
+List<int> expenses = [300, 1200, 450, 700, 50];
+
+void analyzeExpenses(List<int> expenses) {
+  int totalExpensee = 0;
+
+  for (var exp in expenses) {
+    totalExpensee += exp;
+  }
+  int highest = expenses.reduce((a, b) => a > b ? a : b);
+  int  lowest = expenses.reduce((a, b) => a < b ? a : b);
+
+  print("\nTotal $totalExpensee");
+  print("Highest Expense: $highest");
+  print("Lowest Expense :$lowest");
 }
 
 void main() {
@@ -739,4 +842,8 @@ void main() {
   libraryBookBorrowTracker(libraryBooks, studentBorrows);
   OnlineShoppingOrderTracker(products, orders);
   MonthlyBudgetExpenseAnalyzer(users, userExpenses);
+  isEven(numberevenorodd);
+  print(reversText("\nHello World"));
+  studentGradeSummary(studentsGrade);
+  analyzeExpenses(expenses);
 }
