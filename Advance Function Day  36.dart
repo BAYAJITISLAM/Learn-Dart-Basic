@@ -820,11 +820,43 @@ void analyzeExpenses(List<int> expenses) {
     totalExpensee += exp;
   }
   int highest = expenses.reduce((a, b) => a > b ? a : b);
-  int  lowest = expenses.reduce((a, b) => a < b ? a : b);
+  int lowest = expenses.reduce((a, b) => a < b ? a : b);
 
   print("\nTotal $totalExpensee");
   print("Highest Expense: $highest");
   print("Lowest Expense :$lowest");
+}
+
+//Restaurant Menu Order
+Map<String, int> menu = {"Burger": 120, "Pizza": 300, "Fries": 90};
+
+List<Map<String, dynamic>> resturentOrders = [
+  {
+    "customer": "Anik",
+    "items": ["Burger", "Fries"],
+  },
+  {
+    "customer": "Rina",
+    "items": ["Pizza"],
+  },
+];
+
+void restaurantMenuOrder(List<Map<String, dynamic>> resturentOrders) {
+  for (Map<String, dynamic> order in resturentOrders) {
+    String name = order['customer'];
+    List<String> items = List<String>.from(order['items']);
+    dynamic totalprice = 0;
+
+    List<String> orderitem = [];
+
+    for (var item in items) {
+      if (menu.containsKey(item)) {
+        totalprice += menu[item];
+        orderitem.add(item);
+      }
+    }
+    print("$name Orderd : $orderitem - Total $totalprice");
+  }
 }
 
 void main() {
@@ -846,4 +878,5 @@ void main() {
   print(reversText("\nHello World"));
   studentGradeSummary(studentsGrade);
   analyzeExpenses(expenses);
+  restaurantMenuOrder(resturentOrders);
 }
