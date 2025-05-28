@@ -3,6 +3,8 @@
 import 'dart:async';
 import 'dart:math';
 
+import 'Basic Function Day 30.dart';
+
 List<Map<String, dynamic>> accessories = [
   {"name": "mouse", "price": 500},
   {"name": "keyboard", "price": 1000},
@@ -855,7 +857,70 @@ void restaurantMenuOrder(List<Map<String, dynamic>> resturentOrders) {
         orderitem.add(item);
       }
     }
-    print("$name Orderd : $orderitem - Total $totalprice");
+    print("$name Orderd : ${orderitem} - Total $totalprice");
+  }
+}
+
+//Smart Online Store with Offers, Stock System & Invoice Generator
+List<Map<String, dynamic>> smartProducts = [
+  {"name": "Keyboard", "price": 1500, "stock": 5},
+  {"name": "Mouse", "price": 800, "stock": 3},
+  {"name": "Monitor", "price": 10000, "stock": 2},
+];
+
+List<Map<String, dynamic>> smartOrders = [
+  {
+    "customer": "Anik",
+    "items": [
+      {"name": "Keyboard", "quantity": 2},
+      {"name": "Mouse", "quantity": 1},
+    ],
+  },
+  {
+    "customer": "Rina",
+    "items": [
+      {"name": "Monitor", "quantity": 1},
+    ],
+  },
+];
+
+void processOrders(
+  List<Map<String, dynamic>> smartProducts,
+  List<Map<String, dynamic>> smartOrders,
+) {
+  print("\nSmart Online Store with Offers, Stock System & Invoice Generator");
+
+  for (var orders in smartOrders) {
+    String customerName = orders['customer'];
+    dynamic items = orders['items'];
+    dynamic subtotal = 0;
+    print("\n🧾 Invoice for $customerName");
+
+    for (var item in items) {
+      String itemName = item['name'];
+      dynamic itemQuantity = item['quantity'];
+
+      for (var product in smartProducts) {
+        if (product['name'] == itemName) {
+          dynamic totaleachproduct = product['price'] * itemQuantity;
+          subtotal += totaleachproduct;
+          print("- ${product['name']} x$itemQuantity = $totaleachproduct");
+          product['stock'] -= itemQuantity;
+        }
+      }
+    }
+
+    print("Subtotal: $subtotal");
+    if (subtotal >= 3000) {
+      dynamic discount = subtotal * (2 / 100);
+      print("Discount Applied  : $discount  (2%)");
+      print("Total After Discount : ${subtotal - discount} Taka");
+    }
+  }
+  print("\n📦 Remaining Stock:");
+
+  for (var product in smartProducts) {
+    print("-  ${product['name']}: ${product['stock']}");
   }
 }
 
@@ -879,4 +944,5 @@ void main() {
   studentGradeSummary(studentsGrade);
   analyzeExpenses(expenses);
   restaurantMenuOrder(resturentOrders);
+  processOrders(smartProducts, smartOrders);
 }
