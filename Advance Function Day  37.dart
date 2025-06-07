@@ -1,9 +1,6 @@
-//Gadget Accessories Order
-
-import 'dart:async';
 import 'dart:math';
 
-import 'Basic Function Day 30.dart';
+//Gadget Accessories Order
 
 List<Map<String, dynamic>> accessories = [
   {"name": "mouse", "price": 500},
@@ -540,7 +537,6 @@ void trackFreelancerProjects(List<Map<String, dynamic>> freelancers) {
     bool status = false;
 
     for (var project in projectDe) {
-      String projectName = project['title'];
       dynamic projectPrice = project['payment'];
       String projectStatus = project['status'];
       howManyProjects++;
@@ -743,6 +739,7 @@ void MonthlyBudgetExpenseAnalyzer(
       maxSaving = saving;
       topSaver = userName;
     }
+    print(mostExpCat);
     print("💸 Total Expenses $totalExpenses");
     print("💵 Savings:$saving");
     print(
