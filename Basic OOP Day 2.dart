@@ -299,6 +299,79 @@ class Customer {
   }
 }
 
+//Simple Hospital Management System (with OOP)
+
+class Doctore {
+  String name;
+  String specialty;
+  int availableSlots;
+
+  Doctore(this.name, this.specialty, this.availableSlots);
+
+  showDetails() {
+    print("\n🏥 Hospital Doctors:");
+    print("-$name : $availableSlots  slot available");
+    print("------------");
+  }
+}
+
+class Hospital {
+  List<Doctore> doctoreList = [];
+
+  addDoctore(Doctore doctore) {
+    doctoreList.add(doctore);
+    print("👨‍⚕️ Doctor added:${doctore.name} (${doctore.specialty})");
+    print("--");
+  }
+
+  bookAppointment(String doctoreName, int slots) {
+    for (var doctore in doctoreList) {
+      if (doctoreName == doctore.name) {
+        if (slots <= doctore.availableSlots) {
+          doctore.availableSlots -= slots;
+          return true;
+        } else {
+          print("❌ Failed: Not enough slots with $doctoreName.");
+          return false;
+        }
+      }
+    }
+    print("❌ Failed: Doctor not found.");
+    return false;
+  }
+
+  showAllDoctore() {
+    print("\n🏥 Hospital Doctors:");
+    for (var doctore in doctoreList) {
+      doctore.showDetails();
+    }
+    print("-----------------");
+  }
+}
+
+class Patient {
+  String name;
+  List<Map<String, dynamic>> appointments = [];
+
+  Patient(this.name);
+
+  book(String doctoreName, int slots, Hospital hospital) {
+    print("\n-$name  is booking $slots with $doctoreName");
+    bool succes = hospital.bookAppointment(doctoreName, slots);
+    if (succes) {
+      appointments.add({"name": doctoreName, "slot": slots});
+      print("✅ Appointment successful!");
+    }
+  }
+
+  showAppointments() {
+    print("\n$name's Appointments");
+    for (var appintment in appointments) {
+      print("-${appintment['name']}- ${appintment['slot']} slot(s)");
+    }
+  }
+}
+
 // Main Function
 //Void Main
 
@@ -403,5 +476,24 @@ void main() {
   order2.order("apple", 5, myshop);
   order.showOrder();
   order2.showOrder();
-  
+
+  print("\nSimple Hospital Management System (with OOP)");
+
+  Hospital doctoreList = Hospital();
+  doctoreList.addDoctore(Doctore("Dr. Karim", "Cardiologist", 5));
+  doctoreList.addDoctore(Doctore("Dr. Nila", "Dentist", 3));
+
+  doctoreList.showAllDoctore();
+
+  Patient patientName1 = Patient("Major Dalim");
+  patientName1.book("Dr. Karim", 2, doctoreList);
+  patientName1.book("Dr. Nila", 4, doctoreList);
+
+  Patient patientName2 = Patient("Riad Hasan");
+  patientName2.book("Dr. Nila", 3, doctoreList);
+  patientName2.book("Dr. Karim", 4, doctoreList);
+  patientName2.book("Dr. jahid", 1, doctoreList);
+
+  patientName1.showAppointments();
+  patientName2.showAppointments();
 }
