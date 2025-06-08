@@ -1,6 +1,6 @@
 // basic class
 
-import 'dart:async';
+import 'Advance Function Day  37.dart';
 
 class test {
   test(int a, int b) {
@@ -230,6 +230,78 @@ class User {
   }
 }
 
+//Simple Shop Management System
+
+class Product {
+  String name;
+  double price;
+  int stock;
+
+  Product(this.name, this.price, this.stock);
+
+  showDetails() {
+    print("Product Name :$name");
+    print("Product Price  :$price");
+    print("Product Stock :$stock");
+    print("-----------------");
+  }
+}
+
+class Shop {
+  List<Product> productList = [];
+
+  addProduct(Product product) {
+    productList.add(product);
+    print("📦 Product added: ${product.name}");
+  }
+
+  bool placeOrder(String productName, int quantity) {
+    for (var pro in productList) {
+      if (pro.name == productName && quantity <= pro.stock) {
+        pro.stock -= quantity;
+        return true;
+      }
+    }
+    return false;
+  }
+
+  showInventory() {
+    print("\n🏪 Shop Inventory:");
+    for (var product in productList) {
+      print("-${product.name}: ${product.stock}  Left");
+    }
+    print("--------------");
+  }
+}
+
+class Customer {
+  String name;
+  List<Map<String, dynamic>> orderItems = [];
+
+  Customer(this.name);
+
+  order(String productName, int quantity, Shop shop) {
+    print("\n- $name  is ordering $quantity of $productName");
+    bool succes = shop.placeOrder(productName, quantity);
+    if (succes) {
+      orderItems.add({"product": productName, "quantity": quantity});
+      print("✅ Order successful!");
+    } else {
+      print("❌ Failed: Not enough stock.");
+    }
+  }
+
+  showOrder() {
+    print("\n-$name Ordered");
+    for (var product in orderItems) {
+      print("-${product['product']} - x${product['quantity']}");
+    }
+  }
+}
+
+// Main Function
+//Void Main
+
 void main() {
   String name = "Bayajit islam";
 
@@ -316,4 +388,20 @@ void main() {
   riad.borrow("dart essentials", myLibrary);
   riad.showAllBorrow();
   myLibrary.showAllBooks();
+
+  print("\nSimple Shop Management System");
+  Shop myshop = Shop();
+  myshop.addProduct(Product("oil", 60, 4));
+  myshop.addProduct(Product("salt", 40, 1));
+  myshop.addProduct(Product("apple", 20, 7));
+  myshop.showInventory();
+  Customer order = Customer("Major Dalim");
+  order.order("oil", 2, myshop);
+  Customer order2 = Customer("Riad");
+  order2.order("salt", 2, myshop);
+  order2.order("oil", 1, myshop);
+  order2.order("apple", 5, myshop);
+  order.showOrder();
+  order2.showOrder();
+  
 }
