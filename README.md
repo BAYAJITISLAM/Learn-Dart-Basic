@@ -8,18 +8,19 @@ All the code snippets here are based on real-life inspired logic problems using 
 
 ## 📘 Dart Concepts Practiced
 
-These simple tasks helped me understand:
-
-- ✅ if-else conditions
-- ✅ Nested if-else
-- ✅ for loops
-- ✅ List creation and traversal
-- ✅ Type handling: String, int, double
-- ✅ Basic math operations
-- ✅ stdout and print usage
-- ✅ Variable declaration and updates
-- ✅ Logical conditions & comparisons
-- ✅ break and continue statements
+-✅ If-else conditions
+-✅ Nested if-else logic
+-✅ Loops (for, while)
+-✅ List creation and traversal
+-✅ Type handling (String, int, double)
+-✅ Basic math operations
+-✅ stdout and print usage
+-✅ Variable declarations and updates
+-✅ Logical comparisons (==, >, <, etc.)
+-✅ break and continue usage
+-✅ Custom functions
+-✅ Object-Oriented Programming (OOP) basics
+-✅ Class creation, inheritance, method overriding
 
 ---
 
