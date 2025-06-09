@@ -1,6 +1,6 @@
 // basic class
 
-import 'Advance Function Day  37.dart';
+import 'dart:typed_data';
 
 class test {
   test(int a, int b) {
@@ -372,6 +372,181 @@ class Patient {
   }
 }
 
+//Vehicle Booking System
+
+class Vehicle {
+  String name;
+  int stock;
+
+  Vehicle(this.name, this.stock);
+
+  showVehicle() {
+    print("-$name : $stock  left");
+  }
+}
+
+class VehicleStore {
+  List<Vehicle> vehicleList = [];
+
+  addVehicle(Vehicle vehicle) {
+    vehicleList.add(vehicle);
+    print("🚗 Vehicle added: ${vehicle.name} (${vehicle.stock} units)");
+  }
+
+  VehicleBook(String name, int stock) {
+    for (var vehicle in vehicleList) {
+      if (vehicle.name == name) {
+        if (vehicle.stock >= stock) {
+          vehicle.stock -= stock;
+          return true;
+        } else {
+          print("❌ Failed: Not enough vehicles available.");
+          return false;
+        }
+      }
+    }
+    print("❌ Failed:Vehicle Not Found");
+    return false;
+  }
+
+  showVehicle() {
+    print("\n🚗 Vehicle Stock:");
+    for (var vehicle in vehicleList) {
+      vehicle.showVehicle();
+    }
+    print("------------");
+  }
+}
+
+class UserSelectVehicle {
+  String username;
+  List<Map<String, dynamic>> boking = [];
+
+  UserSelectVehicle(this.username);
+
+  selectVehicle(String name, int stock, VehicleStore vehicleList) {
+    print("\n$username is boking $stock of  $name");
+    bool succes = vehicleList.VehicleBook(name, stock);
+    if (succes) {
+      print("✅ Booking successful!");
+      boking.add({"name": name, "unit": stock});
+    }
+  }
+
+  userBook() {
+    print("\n$username Booked :");
+    for (var book in boking) {
+      print("${book['name']}  x${book['unit']}");
+    }
+  }
+}
+
+//Employee Salary System
+
+class EmployeeSystem {
+  String name;
+  String types;
+
+  EmployeeSystem(this.name, this.types);
+
+  showEmployee() {
+    print("-$name ($types)");
+  }
+}
+
+class EmployeeAdd {
+  List<EmployeeSystem> employ = [];
+  List<Map<String, dynamic>> monthlySalary = [];
+
+  addedEmployee(EmployeeSystem employee, double partTimeWorkHour) {
+    print("\👷 Added:${employee.name} (${employee.types})");
+    employ.add(employee);
+    String fixedTypes1 = "Full Time";
+    String fixedTypes2 = "Part Time";
+    double fulTime = 3000;
+    double partTimeHourRate = 50.0;
+
+    if (employee.types == fixedTypes1) {
+      monthlySalary.add({
+        "name": employee.name,
+        "types": employee.types,
+        "salries": fulTime,
+      });
+    }
+    if (employee.types == fixedTypes2) {
+      double totalSalary = partTimeHourRate * partTimeWorkHour;
+      monthlySalary.add({
+        "name": employee.name,
+        "types": employee.types,
+        "salries": totalSalary,
+      });
+    }
+  }
+
+  show() {
+    print("\n🔹 Employee Salaries:");
+    for (var salary in monthlySalary) {
+      print(
+        "-${salary['name']} (${salary['types']}): ${salary['salries']} Dollar",
+      );
+    }
+  }
+}
+
+//Employee Salary System (with Inheritance)
+
+class EmployeeI {
+  String name;
+
+  EmployeeI(this.name);
+
+  calculateSalary() {
+    print("-$name (General Employee)");
+  }
+}
+
+class FullTimeEmployee extends EmployeeI {
+  double salary;
+
+  FullTimeEmployee(String name, this.salary) : super(name);
+
+  @override
+  calculateSalary() {
+    print("-$name (Full Time): $salary Dollar");
+  }
+}
+
+class PartTimeEmployee extends EmployeeI {
+  double workHour;
+  double hourlyRate = 50;
+  late double salary;
+
+  PartTimeEmployee(String name, this.workHour) : super(name) {
+    salary = hourlyRate * workHour;
+  }
+
+  @override
+  calculateSalary() {
+    // TODO: implement calculateSalary
+    print("-$name (Part Time): $salary Dollar");
+  }
+}
+
+class Company {
+  List<EmployeeI> allEmployee = [];
+
+  addEmployee(EmployeeI employee) {
+    allEmployee.add(employee);
+  }
+
+  showSalariees() {
+    print("\n🔸 Employee Salaries:");
+    for (var emp in allEmployee) {
+      emp.calculateSalary();
+    }
+  }
+}
+
 // Main Function
 //Void Main
 
@@ -496,4 +671,40 @@ void main() {
 
   patientName1.showAppointments();
   patientName2.showAppointments();
+
+  print("\nVehicle Booking System");
+
+  VehicleStore myStore = VehicleStore();
+  myStore.addVehicle(Vehicle("Toyota", 3));
+  myStore.addVehicle(Vehicle("Honda Civic", 1));
+  myStore.addVehicle(Vehicle("RRR", 1));
+
+  myStore.showVehicle();
+
+  UserSelectVehicle majorDalimV = UserSelectVehicle("Major Dalim");
+  majorDalimV.selectVehicle("RRR", 1, myStore);
+  majorDalimV.selectVehicle("Toyota", 2, myStore);
+  majorDalimV.selectVehicle("TTT", 1, myStore);
+  majorDalimV.userBook();
+
+  UserSelectVehicle bayajitIslam = UserSelectVehicle("Bayajit Islam");
+  bayajitIslam.selectVehicle("RRR", 1, myStore);
+  bayajitIslam.selectVehicle("Honda Civic", 1, myStore);
+  bayajitIslam.userBook();
+
+  print("\nCompany Employee Management System");
+
+  EmployeeAdd addEmployee = EmployeeAdd();
+  addEmployee.addedEmployee(EmployeeSystem("Bayajit", "Part Time"), 60);
+  addEmployee.addedEmployee(EmployeeSystem("Major Dalim", "Full Time"), 00);
+  addEmployee.show();
+
+  print(" \nEmployee Salary System (with Inheritance)");
+
+  Company mycompany = Company();
+
+  mycompany.addEmployee(FullTimeEmployee("Bayajit Islam", 3000));
+  mycompany.addEmployee(PartTimeEmployee("Major Dalim", 80));
+
+  mycompany.showSalariees();
 }
