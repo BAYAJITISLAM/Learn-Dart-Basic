@@ -1,6 +1,5 @@
 // basic class
-
-import 'dart:typed_data';
+import 'dart:math';
 
 class test {
   test(int a, int b) {
@@ -527,7 +526,6 @@ class PartTimeEmployee extends EmployeeI {
 
   @override
   calculateSalary() {
-    // TODO: implement calculateSalary
     print("-$name (Part Time): $salary Dollar");
   }
 }
@@ -544,6 +542,372 @@ class Company {
     for (var emp in allEmployee) {
       emp.calculateSalary();
     }
+  }
+}
+
+//Student Result Management System
+
+class Student {
+  String name;
+  String group;
+
+  Student(this.name, this.group);
+
+  showResult() {
+    print("Student Name: $name");
+    print("Group: $group");
+  }
+}
+
+class ScienceStudent extends Student {
+  int Physics;
+  int Chemistry;
+  int Biology;
+
+  ScienceStudent(String name, this.Physics, this.Chemistry, this.Biology)
+    : super(name, "Science");
+
+  @override
+  showResult() {
+    double avarage = (Physics + Chemistry + Biology) / 3;
+
+    print("\n Student Name: $name");
+    print("Group: $group");
+    print("Physics :$Physics");
+    print("Chemistry: $Chemistry");
+    print("Biology :$Biology");
+    print("Average : ${avarage.toStringAsFixed(0)}");
+    if (avarage >= 90) {
+      print("A+");
+    } else if (avarage >= 80) {
+      print("A");
+    } else if (avarage >= 70) {
+      print("B");
+    } else if (avarage >= 60) {
+      print("C");
+    } else {
+      print("F");
+    }
+  }
+}
+
+class CommerceStudent extends Student {
+  int Accounting;
+  int Management;
+  int Finance;
+
+  CommerceStudent(String name, this.Accounting, this.Management, this.Finance)
+    : super(name, "Commerce");
+
+  @override
+  showResult() {
+    double avarage = (Accounting + Management + Finance) / 3;
+
+    print("\n Student Name: $name");
+    print("Group: $group");
+    print("Accounting :$Accounting");
+    print("Management: $Management");
+    print("Finance :$Finance");
+    print("Average : ${avarage.toStringAsFixed(0)}");
+    if (avarage >= 90) {
+      print("A+");
+    } else if (avarage >= 80) {
+      print("A");
+    } else if (avarage >= 70) {
+      print("B");
+    } else if (avarage >= 60) {
+      print("C");
+    } else {
+      print("F");
+    }
+  }
+}
+
+//Student Ranking System
+
+abstract class StudentRank {
+  String name;
+  String group;
+
+  StudentRank(this.name, this.group);
+
+  showResult();
+  double getAverage();
+}
+
+class ScienceStudentRank extends StudentRank {
+  List<StudentRank> allStudents = [];
+
+  int Physics;
+  int Biology;
+  int Chemistry;
+
+  ScienceStudentRank(String name, this.Physics, this.Biology, this.Chemistry)
+    : super(name, "Science");
+
+  @override
+  showResult() {
+    print("\nName :$name ($group)");
+    print("Physics: $Physics, Biology: $Biology, Chemistry: $Chemistry");
+    if (getAverage() >= 90) {
+      print("Average : ${getAverage().toStringAsFixed(2)} Grade : A+");
+    } else if (getAverage() >= 80) {
+      print("Average : ${getAverage().toStringAsFixed(2)} Grade : A");
+    } else if (getAverage() >= 70) {
+      print("Average : ${getAverage().toStringAsFixed(2)} Grade : B");
+    } else if (getAverage() >= 60) {
+      print("Average : ${getAverage().toStringAsFixed(2)} Grade : C");
+    } else {
+      print("Average : ${getAverage().toStringAsFixed(2)} Grade : F");
+    }
+  }
+
+  @override
+  double getAverage() => (Physics + Chemistry + Biology) / 3;
+}
+
+class CommerceStudentRank extends StudentRank {
+  List<StudentRank> allStudents = [];
+
+  int Accounting;
+  int Management;
+  int Finance;
+
+  CommerceStudentRank(
+    String name,
+    this.Accounting,
+    this.Finance,
+    this.Management,
+  ) : super(name, "Commerce");
+
+  @override
+  showResult() {
+    print("Name :$name ($group)");
+    print(
+      "Accounting: $Accounting, Finance: $Finance, Management: $Management",
+    );
+    if (getAverage() >= 90) {
+      print("Average : ${getAverage().toStringAsFixed(2)} Grade : A+");
+    } else if (getAverage() >= 80) {
+      print("Average : ${getAverage().toStringAsFixed(2)} Grade : A");
+    } else if (getAverage() >= 70) {
+      print("Average : ${getAverage().toStringAsFixed(2)} Grade : B");
+    } else if (getAverage() >= 60) {
+      print("Average : ${getAverage().toStringAsFixed(2)} Grade : C");
+    } else {
+      print("Average : ${getAverage().toStringAsFixed(2)} Grade : F");
+    }
+  }
+
+  @override
+  double getAverage() => (Accounting + Finance + Management) / 3;
+}
+
+//basic class and objects
+
+class Person {
+  String name;
+  int age;
+
+  Person(this.name, this.age);
+
+  introduce() {
+    print("Hi, I'm $name Iam  $age years old.");
+  }
+}
+
+//inheritance
+
+class PersonInheritance {
+  String name;
+
+  PersonInheritance(this.name);
+}
+
+class Teacher extends PersonInheritance {
+  String subjects;
+
+  Teacher(String name, this.subjects) : super(name);
+
+  introduce() {
+    print("Hi  I'm $name, and  I teach $subjects.");
+  }
+}
+
+//✅ Level 1: Basic Inheritance Tasks
+//Employee System
+
+class EmployeB {
+  String name;
+  double salary;
+
+  EmployeB(this.name, this.salary);
+
+  showDeteilse() {
+    print("$name $salary");
+  }
+}
+
+class Manager extends EmployeB {
+  double bonus;
+
+  Manager(String name, double salary, this.bonus) : super(name, salary);
+
+  @override
+  showDeteilse() {
+    print("Name: $name -Salary $salary -Bonus $bonus");
+    print("Total Salary :${salary + bonus}");
+  }
+}
+
+//Vehicle Inheritance
+
+class VehicleB {
+  String name;
+  int speed;
+
+  VehicleB(this.name, this.speed);
+
+  showVehicle() {}
+}
+
+class Car extends VehicleB {
+  String brand;
+  String fuelType;
+
+  Car(String name, int speed, this.brand, this.fuelType) : super(name, speed);
+
+  @override
+  showVehicle() {
+    print("\nName :$name");
+    print("Speed $speed Km");
+    print("Brand ;$brand");
+    print("Fuel Type :$fuelType");
+  }
+}
+
+//✅ Level 2: Real-Life Structure
+//Bank Account System
+
+class BankAccount {
+  String name;
+  double balance;
+
+  BankAccount(this.name, this.balance);
+
+  showDeteils() {}
+}
+
+class SavingsAccount extends BankAccount {
+  double interestRate;
+
+  SavingsAccount(String name, double balance, this.interestRate)
+    : super(name, balance);
+
+  @override
+  showDeteils() {
+    print("Name :$name -Balance :$balance Taka -Interest Rate $interestRate%");
+
+    double interest = (balance * interestRate * 1) / 100;
+
+    print("1 Year Interest $interest");
+  }
+}
+
+//Hospital System
+
+class PatientPerson {
+  String name;
+  int age;
+
+  PatientPerson(this.name, this.age);
+
+  showDetails() {}
+}
+
+class Doctor extends PatientPerson {
+  String speciality;
+
+  Doctor(String name, int age, this.speciality) : super(name, age);
+
+  @override
+  showDetails() {
+    super.showDetails();
+    print("\nDoctore Name :$name -Age $age");
+    print("Speciality  : $speciality");
+  }
+}
+
+class Patients extends PatientPerson {
+  String disease;
+
+  Patients(String name, int age, this.disease) : super(name, age);
+
+  @override
+  showDetails() {
+    super.showDetails();
+    print("\nPatiant Name :$name - Age :$age");
+    print("Disease :$disease");
+  }
+}
+
+abstract class Shape {
+  getArea();
+}
+
+class Circle extends Shape {
+  double radius;
+
+  Circle(this.radius);
+  @override
+  getArea() {
+    print("Circle Area : ${(pi * radius * radius)}");
+  }
+}
+
+class Rectangle extends Shape {
+  double length;
+  double width;
+
+  Rectangle(this.length, this.width);
+
+  @override
+  getArea() {
+    print("Rectangle Area : ${length * width}");
+  }
+}
+
+//✅ Level 5: Combined Challenge
+//School Management System
+
+abstract class PersonShool {
+  String role;
+
+  PersonShool(this.role);
+  showDetails() {}
+}
+
+class TeacherSchool extends PersonShool {
+  String subject;
+  double salary;
+
+  TeacherSchool(String role, this.subject, this.salary) : super(role);
+
+  @override
+  showDetails() {
+    print("$role Subject ;$subject Salary :$salary");
+  }
+}
+
+class StudentSchool extends PersonShool {
+  String subject;
+  int mark;
+
+  StudentSchool(String role, this.subject, this.mark) : super(role);
+
+  @override
+  showDetails() {
+    print("$role Subject :$subject  Mark $mark");
   }
 }
 
@@ -707,4 +1071,85 @@ void main() {
   mycompany.addEmployee(PartTimeEmployee("Major Dalim", 80));
 
   mycompany.showSalariees();
+
+  print("\nStudent Result Management System");
+
+  ScienceStudent SciStudent = ScienceStudent("Major Dalim", 66, 77, 88);
+  SciStudent.showResult();
+
+  CommerceStudent commStudnet = CommerceStudent("Tanvir", 88, 77, 68);
+  commStudnet.showResult();
+
+  print("\nStudent Ranking System");
+
+  List<StudentRank> studentsS = [
+    ScienceStudentRank("Dalim", 90, 85, 88),
+    ScienceStudentRank("Kamal", 72, 66, 74),
+    CommerceStudentRank("Jamal", 78, 82, 79),
+    CommerceStudentRank("Rafi", 92, 89, 90),
+  ];
+
+  print("🎓 All Student Results:\n");
+  for (var student in studentsS) {
+    student.showResult();
+    print("----------");
+  }
+
+  studentsS.sort((a, b) => b.getAverage().compareTo(a.getAverage()));
+
+  print("\n🏆 Student Ranking:");
+
+  int rank = 1;
+
+  for (var st in studentsS) {
+    print(
+      "Rank  #${rank++} _ ${st.name} (${st.group}) - Average: ${st.getAverage().toStringAsFixed(2)}",
+    );
+  }
+
+  print("\n✅ Challenge 1: Basic Class & Object");
+
+  Person person = Person("Bayajit Islam", 20);
+  person.introduce();
+
+  print("\n✅ Challenge 2: Inheritance");
+
+  Teacher teacherrr = Teacher("Major Dalim", "English");
+  teacherrr.introduce();
+
+  print("\n✅ Level 1: Basic Inheritance Tasks Employee System");
+
+  Manager employeeInformation = Manager("Riad", 30000, 6000);
+  employeeInformation.showDeteilse();
+
+  print("\nVehicle Inheritance");
+  Car carSelect = Car("RRR", 300, "RRR", "OIL");
+  carSelect.showVehicle();
+
+  print("\nLevel 2: Real-Life Structure - Bank Account System");
+
+  SavingsAccount svaccount = SavingsAccount("Candy", 5000, 5);
+  svaccount.showDeteils();
+
+  print("\nHospital System");
+
+  Doctor rrr = Doctor("Major Dalim", 44, 'Cencer');
+  Patients ppp = Patients("Riad", 22, 'Cencer');
+  rrr.showDetails();
+  ppp.showDetails();
+
+  print("\nMethod Overriding");
+
+  Circle circle = Circle(5);
+  Rectangle rectangle = Rectangle(10, 4);
+  circle.getArea();
+  rectangle.getArea();
+
+  print("\n✅ Level 5: Combined Challenge");
+
+  TeacherSchool tsl = TeacherSchool("Teacher", "English", 12000);
+  StudentSchool STL = StudentSchool("Student ", "English", 77);
+
+  tsl.showDetails();
+  STL.showDetails();
 }
