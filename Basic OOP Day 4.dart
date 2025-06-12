@@ -1,5 +1,8 @@
 // basic class
+import 'dart:async';
 import 'dart:math';
+
+import 'Advance Function Day  37.dart';
 
 class test {
   test(int a, int b) {
@@ -911,6 +914,327 @@ class StudentSchool extends PersonShool {
   }
 }
 
+//🎯 Level 3 Challenge: Advanced School Management System
+
+abstract class PersonSystem {
+  String role;
+
+  PersonSystem(this.role);
+
+  showDeteail() {}
+}
+
+class TeacherSystem extends PersonSystem {
+  String teachername;
+  String subject;
+  double salry;
+
+  TeacherSystem(String role, this.teachername, this.subject, this.salry)
+    : super("Teacher");
+}
+
+class StudentSystem extends PersonSystem {
+  String studentName;
+  String subject;
+  int marks;
+
+  StudentSystem(String role, this.studentName, this.subject, this.marks)
+    : super("Student");
+}
+
+class School {
+  List<TeacherSystem> teacherList = [];
+  List<StudentSystem> studentList = [];
+
+  addTeacher(TeacherSystem teacher) {
+    teacherList.add(teacher);
+    print("\Teacher Added:  ${teacher.teachername}");
+    print("----------");
+  }
+
+  addStudent(StudentSystem student) {
+    studentList.add(student);
+    print("\Student Added: ${student.studentName}");
+    print("----------");
+  }
+
+  showAll() {
+    print("\n🔹 Teacher:");
+    int totalTeacher = teacherList.length;
+    double totalSalary = 0;
+
+    for (var teacher in teacherList) {
+      print(
+        "-Name ${teacher.teachername} Subject: ${teacher.subject} Salary : ${teacher.salry}",
+      );
+      totalSalary += teacher.salry;
+    }
+    print("Average Teacher Salary:${totalSalary / totalTeacher}");
+    print("\n🔹 Students:");
+
+    for (var student in studentList) {
+      if (student.marks >= 90) {
+        print(
+          "- Name: ${student.studentName}, Subject: ${student.subject}, Mark: ${student.marks}, Grade: A+",
+        );
+      } else if (student.marks >= 80) {
+        print(
+          "- Name: ${student.studentName}, Subject: ${student.subject}, Mark: ${student.marks}, Grade: A",
+        );
+      } else if (student.marks >= 70) {
+        print(
+          "- Name: ${student.studentName}, Subject: ${student.subject}, Mark: ${student.marks}, Grade: B",
+        );
+      } else if (student.marks >= 60) {
+        print(
+          "- Name: ${student.studentName}, Subject: ${student.subject}, Mark: ${student.marks}, Grade: C",
+        );
+      } else if (student.marks > 33) {
+        print(
+          "- Name: ${student.studentName}, Subject: ${student.subject}, Mark: ${student.marks}, Grade: D",
+        );
+      } else {
+        print(
+          "- Name: ${student.studentName}, Subject: ${student.subject}, Mark: ${student.marks}, Grade: F",
+        );
+      }
+    }
+  }
+
+  showRanking() {
+    print("\nStudent Ranking");
+
+    List<StudentSystem> ranked = studentList;
+    ranked.sort((a, b) => b.marks.compareTo(a.marks));
+
+    int ranks = 1;
+
+    for (var rank in ranked) {
+      print("${ranks++}. ${rank.studentName} -  ${rank.marks}");
+    }
+  }
+}
+
+//🎯 Level 4 Challenge: Library Management System
+
+class Books {
+  String title;
+  String author;
+  int copies;
+
+  Books(this.title, this.author, this.copies);
+
+  borrow() {}
+
+  returnBook() {}
+}
+
+class Users {
+  String name;
+  List<Books> borrowedBooks = [];
+
+  Users(this.name);
+
+  borrowBook(Books books) {}
+
+  returnBook(Books books) {}
+}
+
+class Libraryy {
+  List<Books> catalog = [];
+  List<Users> users = [];
+  List<Map<String, dynamic>> userBorrowBook = [];
+
+  addBook(Books books) {
+    catalog.add(books);
+    print("Book Added :${books.title}");
+  }
+
+  addUser(Users user) {
+    users.add(user);
+    print("User Add :${user.name}");
+  }
+
+  borrowBook(userName, bookTitle) {
+    for (var book in catalog) {
+      for (var user in users) {
+        if (bookTitle == book.title && userName == user.name) {
+          if (book.copies > 0) {
+            book.copies--;
+            userBorrowBook.add({"name": user.name, "book": book.title});
+            print("📚 Book Borrowed: $userName borrowed ${book.title}");
+          } else {
+            print("❌ $userName cannot borrow ${book.title} (No copies left)");
+          }
+        }
+      }
+    }
+  }
+
+  returnBook(userName, bookTitle) {
+    for (var book in catalog) {
+      if (bookTitle == book.title) {
+        book.copies++;
+        print("✅ $userName returned ${book.title}");
+      }
+    }
+  }
+
+  showInventory() {
+    print("\nAll Books:");
+
+    for (var book in catalog) {
+      print("-${book.title} -  ${book.copies} Copy Left");
+    }
+  }
+
+  showBorrowedBooks() {
+    print("\n👤 User Borrowed Books:");
+
+    for (var user in userBorrowBook) {
+      print("-${user['name']} ${user['book']}");
+    }
+  }
+}
+
+//🎯 Level 4 Challenge: Video Rental Store Management System
+
+class Movie {
+  String title;
+  String director;
+  int copiesAvailable;
+
+  Movie(this.title, this.director, this.copiesAvailable);
+
+  rent() {
+    if (copiesAvailable > 0) {
+      copiesAvailable--;
+      return true;
+    }
+    return false;
+  }
+
+  returnMovie() {
+    copiesAvailable++;
+    return true;
+  }
+}
+
+class CustomerRentalStore {
+  String name;
+  List<Movie> rentalMovie = [];
+
+  CustomerRentalStore(this.name);
+
+  rentMovies(Movie movie) {
+    if (movie.rent()) {
+      rentalMovie.add(movie);
+      return true;
+    }
+    return false;
+  }
+
+  returnMovie(Movie movie) {
+    if (rentalMovie.contains(movie)) {
+      movie.returnMovie();
+      rentalMovie.remove(movie);
+      return true;
+    }
+    return false;
+  }
+}
+
+class videoStore {
+  List<Movie> inventory = [];
+  List<CustomerRentalStore> customer = [];
+  List<Map<String, dynamic>> rentedMovie = [];
+
+  addMovie(Movie movie) {
+    inventory.add(movie);
+    print("🎥 Movie Added:${movie.title}");
+  }
+
+  addCustomer(CustomerRentalStore cust) {
+    customer.add(cust);
+    print("👤 Customer Added:${cust.name}");
+  }
+
+  void rentMovie(String customerName, movieTitle) {
+    var customers = customer.firstWhere(
+      (u) => u.name == customerName,
+      orElse: () => CustomerRentalStore("Unknown"),
+    );
+
+    var inv = inventory.firstWhere(
+      (u) => u.title == movieTitle,
+      orElse: () => Movie("Unknown", "Unknown", 0),
+    );
+
+    if (customers == "Unknown") {
+      print("❌ Customer not found: $customerName");
+      return;
+    }
+
+    if (inv == "Unknown") {
+      print("❌ Movie not found: $movieTitle");
+      return;
+    }
+
+    if (customers.rentMovies(inv)) {
+      rentedMovie.add({"userName": customerName, "movieName": movieTitle});
+      print("📼 $customerName rented $movieTitle");
+    } else {
+      print("❌ $customerName cannot rent $movieTitle (No copies left)");
+    }
+  }
+
+  returnMovie(cutomerName, movieTitle) {
+    var customers = customer.firstWhere(
+      (u) => u.name == cutomerName,
+      orElse: () => CustomerRentalStore("Unknown"),
+    );
+
+    var inv = inventory.firstWhere(
+      (u) => u.title == movieTitle,
+      orElse: () => Movie("Unknown", "Unknown", 0),
+    );
+    if (customers == "Unknown") {
+      print("❌ Customer not found: $cutomerName");
+      return;
+    }
+
+    if (inv == "Unknown") {
+      print("❌ Movie not found: $movieTitle");
+      return;
+    }
+
+    if (customers.returnMovie(inv)) {
+      rentedMovie.removeWhere(
+        (entry) =>
+            entry['userName'] == cutomerName &&
+            entry['movieName'] == movieTitle,
+      );
+      print("✅ $cutomerName returned $movieTitle");
+    } else {
+      print("❌ $cutomerName did not borrow ${inv.title}");
+    }
+  }
+
+  showInventory() {
+    print("\n🎯 Inventory:");
+    for (var store in inventory) {
+      print("-${store.title} - ${store.copiesAvailable} Copy Left");
+    }
+  }
+
+  showRentedMovie() {
+    print("\n📋 Rented Movies:");
+    for (var rented in rentedMovie) {
+      print("-${rented['userName']}  rented ${rented['movieName']}");
+    }
+  }
+}
+
 // Main Function
 //Void Main
 
@@ -1152,4 +1476,56 @@ void main() {
 
   tsl.showDetails();
   STL.showDetails();
+
+  print("\n🎯 Level 3 Challenge: Advanced School Management System");
+
+  School myschool = School();
+  myschool.addTeacher((TeacherSystem("", "Nila", "English", 20000)));
+  myschool.addStudent((StudentSystem("", "Major Dalim", "Math", 88)));
+  myschool.addTeacher((TeacherSystem("", "Billa", "English", 33000)));
+  myschool.addStudent((StudentSystem("", "Riad", "Math", 32)));
+  myschool.addTeacher((TeacherSystem("", "Sweety", "Physics", 2500)));
+  myschool.addStudent((StudentSystem("", "Pablo", "English", 76)));
+  myschool.addTeacher((TeacherSystem("", "Rithy", "Math", 31000)));
+  myschool.addStudent((StudentSystem("", "Bayajit", "Math", 98)));
+  myschool.showAll();
+  myschool.showRanking();
+
+  print("\n🎯 Level 4 Challenge: Library Management System");
+
+  Libraryy mylibrary = Libraryy();
+  mylibrary.addBook(Books("ALC", "A", 2));
+  mylibrary.addBook(Books("Tomato", "T", 1));
+  mylibrary.addUser(Users("Major Dalim"));
+  mylibrary.addUser(Users("Bayajit"));
+  mylibrary.borrowBook("Major Dalim", "ALC");
+  mylibrary.borrowBook("Bayajit", "Tomato");
+  mylibrary.returnBook("Bayajit", "Tomato");
+  mylibrary.returnBook('Major Dalim', "ALC");
+  mylibrary.showInventory();
+  mylibrary.showBorrowedBooks();
+
+  print("\n🎯 Level 4 Challenge: Video Rental Store Management Systemect");
+
+  videoStore myVideoStore = videoStore();
+  myVideoStore.addMovie(Movie("Interstellar", "Major Dalim", 2));
+  myVideoStore.addMovie(Movie("Inception", "Major Dalim", 1));
+
+  myVideoStore.addCustomer(CustomerRentalStore("Riad"));
+  myVideoStore.addCustomer(CustomerRentalStore("Bayajit"));
+
+  myVideoStore.rentMovie("Bayajit", "Inception");
+  myVideoStore.rentMovie("Riad", "Inception");
+  myVideoStore.rentMovie("Riad", "Interstellar");
+
+  myVideoStore.showInventory();
+  myVideoStore.showRentedMovie();
+
+  myVideoStore.returnMovie("Riad", "Inception");
+  myVideoStore.returnMovie("Bayajit", "Inception");
+  
+  myVideoStore.rentMovie("Riad", "Inception");
+
+  myVideoStore.showInventory();
+  myVideoStore.showRentedMovie();
 }
