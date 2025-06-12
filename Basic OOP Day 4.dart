@@ -2,6 +2,15 @@
 
 import 'dart:math';
 
+extension FirstWhereOrNullExtension<E> on List<E> {
+  E? firstWhereOrNull(bool Function(E) test) {
+    for (var element in this) {
+      if (test(element)) return element;
+    }
+    return null;
+  }
+}
+
 class test {
   test(int a, int b) {
     int sum = a + b;
@@ -1233,6 +1242,152 @@ class videoStore {
   }
 }
 
+//🎯 Level 4 Practice Challenge 2: Hospital Management System
+
+class DoctoreHM {
+  String name;
+  String specialization;
+  int availableSlots;
+
+  DoctoreHM(this.name, this.specialization, this.availableSlots);
+
+  bookSlot() {
+    if (availableSlots > 0) {
+      availableSlots--;
+      return true;
+    }
+    return false;
+  }
+
+  cencelSlot() {
+    availableSlots++;
+    return true;
+  }
+}
+
+class PatientHM {
+  String name;
+  List<DoctoreHM> appointments = [];
+
+  PatientHM(this.name);
+
+  bookAppointment(DoctoreHM doctore) {
+    if (doctore.bookSlot()) {
+      appointments.add(doctore);
+      return true;
+    }
+  }
+
+  cencelAppointment(DoctoreHM doctore) {
+    if (doctore.cencelSlot()) {
+      appointments.contains(doctore);
+      appointments.remove(doctore);
+      return true;
+    }
+    return false;
+  }
+}
+
+class HospitalHM {
+  List<DoctoreHM> doctore = [];
+  List<PatientHM> patients = [];
+  List<Map<String, dynamic>> appointmentStatus = [];
+
+  addDoctore(DoctoreHM dc) {
+    doctore.add(dc);
+    print("Doctore Added :${dc.name}");
+  }
+
+  addPatients(PatientHM pt) {
+    patients.add(pt);
+    print("Patients Added ${pt.name}");
+  }
+
+  bookAppointment(patientName, doctoreName) {
+    PatientHM? patientNull;
+    DoctoreHM? doctoreNull;
+  try {
+      patientNull = patients.firstWhere((p) => p.name == patientName);
+    } catch (e) {
+      patientNull = null;
+    }
+
+    try {
+      doctoreNull = doctore.firstWhere((d) => d.name == doctoreName);
+    } catch (e) {
+      doctoreNull = null;
+    }
+
+    if (patientNull == null) {
+      print("Patient Not Found");
+      return;
+    }
+
+    if (doctoreNull == null) {
+      print("Doctore Not Found");
+      return;
+    }
+
+    if (patientNull.bookAppointment(doctoreNull)) {
+      appointmentStatus.add({"pName": patientName, "dName": doctoreName});
+      print("✅ Patient $patientName booked appointment with $doctoreName");
+    } else {
+      print("❌ $doctoreName has no available slots");
+    }
+  }
+
+  cencelAppointment(patientName, doctoreName) {
+    PatientHM? patientNull;
+    DoctoreHM? doctoreNull;
+
+    try {
+      patientNull = patients.firstWhere((p) => p.name == patientName);
+    } catch (e) {
+      patientNull = null;
+    }
+
+    try {
+      doctoreNull = doctore.firstWhere((d) => d.name == doctoreName);
+    } catch (e) {
+      doctoreNull = null;
+    }
+
+    if (patientNull == null) {
+      print("Patient Not Found");
+      return;
+    }
+
+    if (doctoreNull == null) {
+      print("Doctore Not Found");
+      return;
+    }
+
+    if (patientNull.cencelAppointment(doctoreNull)) {
+      appointmentStatus.removeWhere(
+        (entry) =>
+            entry['pName'] == patientName && entry['dName'] == doctoreName,
+      );
+      print("✅  $patientName Cencel appointment with $doctoreName");
+    }
+  }
+
+  showAllAppointMent() {
+    print("\n📋 📋 Appointments:");
+    for (var ap in appointmentStatus) {
+      print("-${ap['pName']}: ${ap['dName']}");
+    }
+  }
+
+  showDoctore() {
+    print("\n📋 Doctor Status:");
+    for (var dc in doctore) {
+      print(
+        "-${dc.name} (${dc.specialization}) - ${dc.availableSlots} Slot left",
+      );
+    }
+  }
+}
+
 // Main Function
 //Void Main
 
@@ -1526,4 +1681,22 @@ void main() {
 
   myVideoStore.showInventory();
   myVideoStore.showRentedMovie();
+
+  print("\n🎯 Level 4 Practice Challenge 2: Hospital Management System");
+
+  HospitalHM myHospital = HospitalHM();
+  myHospital.addDoctore(DoctoreHM("Dr. Nila", "Dentist", 2));
+  myHospital.addDoctore(DoctoreHM("Dr. Shila", "Surgeon", 3));
+
+  myHospital.addPatients(PatientHM("Major Dalim"));
+  myHospital.addPatients(PatientHM("Riad"));
+
+  myHospital.bookAppointment("Riad", "Dr. Nila");
+  myHospital.bookAppointment("Major Dalim", "Dr. Shila");
+  myHospital.bookAppointment("Riad", "Dr.");
+
+  myHospital.cencelAppointment("Major Dalim", "Dr. Shila");
+
+  myHospital.showAllAppointMent();
+  myHospital.showDoctore();
 }
