@@ -9,7 +9,7 @@ This repository contains a series of beginner-friendly code snippets based on re
 
 ## 👨‍💻 About Me
 
-Hi, I'm **Bayazid Islam**, an engineering student passionate about technology and self-growth through coding. I created these Dart practice tasks as a way to learn programming by solving practical problems, one step at a time.
+Hi, I'm **Bayajit Islam**, an engineering student passionate about technology and self-growth through coding. I created these Dart practice tasks as a way to learn programming by solving practical problems, one step at a time.
 
 ---
 
