@@ -1,5 +1,8 @@
 //Student Record System
 
+import 'dart:collection';
+import 'dart:io';
+
 class Student {
   String name;
   int id;
@@ -214,6 +217,113 @@ class Library {
   }
 }
 
+// E-Commerce Cart System
+
+class Product {
+  String name;
+  double price;
+
+  Product(this.name, this.price);
+}
+
+class CartItem {
+  String product;
+  int quantity;
+
+  CartItem(this.product, this.quantity);
+}
+
+class ShoppinCart {
+  List<Product> product = [];
+  List<CartItem> cartItem = [];
+
+  addProduct(Product products) {
+    product.add(products);
+    print("New Product Added  : ${products.name}");
+  }
+
+  removeProduct(String name) {
+    for (var pd in product) {
+      if (pd.name == name) {
+        product.removeWhere((p) => p.name == name);
+      }
+    }
+  }
+
+  cart(CartItem selectItem) {
+    cartItem.add(selectItem);
+    print("Added New Item to Cart : ${selectItem.product}");
+  }
+
+  getTotal() {
+    print("\n🛒 Shopping Cart Receipt");
+    print("----------------");
+
+    double totalPrice = 0;
+
+    for (var item in cartItem) {
+      var prod = product.firstWhere((p) => p.name == item.product);
+      double price = item.quantity * prod.price;
+      print("-${item.quantity}x ${item.product} -  $price");
+      totalPrice += price;
+    }
+    print("----------------");
+    print("Total Price :$totalPrice");
+  }
+}
+
+//Contact Book Management System
+
+class Contact {
+  String name;
+  String phone;
+  String? email;
+
+  Contact(this.name, this.phone, {this.email});
+}
+
+class ContactBook {
+  List<Contact> contactList = [];
+
+  addContact(Contact contact) {
+    contactList.add(contact);
+  }
+
+  removeContact(String name) {
+    var cont = contactList.firstWhere((p) => p.name == name);
+    if (cont.name == name) contactList.removeWhere((e) => e.name == name);
+  }
+
+  searchContact(String query) {
+    print("\n🔍 Search Results for \"$query\":");
+    bool found = false;
+    for (var cont in contactList) {
+      if (cont.name.toLowerCase().contains((query.toLowerCase())))
+        print(
+          "Name ${cont.name}- Number ${cont.phone}  email : ${cont.email ?? "Not Provied"}",
+        );
+      found = true;
+    }
+    if (!found) {
+      print("No Contact Found");
+    }
+  }
+
+  sortContact() {
+    contactList.sort((a, b) => a.name.compareTo(b.name));
+    print("\n  Contact Sorted A-Z");
+  }
+
+  printAllContact() {
+    print("\nAll Contact");
+    for (var cont in contactList) {
+      print(
+        "Name ${cont.name}- Number ${cont.phone}  email : ${cont.email ?? "Not Provied"}",
+      );
+    }
+  }
+}
+
 void main() {
   print("\nStudent Record System\n");
 
@@ -283,4 +393,30 @@ void main() {
   myLibrary.returnBooks('Bayajit', "My Boy");
 
   myLibrary.availabeBook();
+
+  print("\n E-Commerce Cart System\n");
+
+  ShoppinCart myshoping = ShoppinCart();
+  myshoping.addProduct(Product("Apple", 50));
+  myshoping.addProduct(Product("Orange", 40));
+  myshoping.addProduct(Product("Mango", 30));
+
+  myshoping.cart(CartItem("Apple", 3));
+  myshoping.cart(CartItem("Orange", 2));
+  myshoping.getTotal();
+
+  print(" Contact Book Management System");
+
+  ContactBook myBook = ContactBook();
+  myBook.addContact(Contact("Major", "0123456789",email: "majordalim@gamil.com"));
+  myBook.addContact(Contact("Riya", "0170000000",email: "riya@gmail.com"));
+  myBook.addContact(Contact("Alice", "0151111111",email: "alice@gmail.com"));
+  myBook.addContact(Contact("John", "0169999999"));
+  myBook.addContact(Contact("Mahi", "0148888888"));
+
+  myBook.printAllContact();
+  myBook.removeContact("Riya");
+  myBook.sortContact();
+  myBook.printAllContact();
+  myBook.searchContact("major");
 }
