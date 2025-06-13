@@ -324,6 +324,52 @@ class ContactBook {
   }
 }
 
+//Task Manager App (Console Version)
+
+class Task {
+  String name;
+  String? descripton;
+  String priority;
+  bool isCompleted = false;
+
+  Task(this.name, this.priority, {this.descripton});
+}
+
+class TaskManager {
+  List<Task> tasks = [];
+
+  addTask(Task task) {
+    tasks.add(task);
+  }
+
+  markCompleted(String title) {
+    for (var task in tasks) {
+      if (task.name == title) {
+        task.isCompleted = true;
+        print("\n✅Marked ${task.name} as completed.");
+      }
+    }
+  }
+
+  filterByPriority(String priority) {
+    print("\n🔍 $priority Priority Tasks:");
+    for (var task in tasks) {
+      if (task.priority.toLowerCase().contains(priority.toLowerCase())) {
+        var checkBox = task.isCompleted ? "[x]" : "[ ]";
+        print("- $checkBox ${task.name} (Priority: ${task.priority})");
+      }
+    }
+  }
+
+  showAllTask() {
+    print("\n📋 All Tasks:");
+    for (var task in tasks) {
+      var checkBox = task.isCompleted ? "[x]" : "[ ]";
+      print("- $checkBox  ${task.name} (Priority: ${task.priority})");
+    }
+  }
+}
+
 void main() {
   print("\nStudent Record System\n");
 
@@ -408,9 +454,11 @@ void main() {
   print(" Contact Book Management System");
 
   ContactBook myBook = ContactBook();
-  myBook.addContact(Contact("Major", "0123456789",email: "majordalim@gamil.com"));
-  myBook.addContact(Contact("Riya", "0170000000",email: "riya@gmail.com"));
-  myBook.addContact(Contact("Alice", "0151111111",email: "alice@gmail.com"));
+  myBook.addContact(
+    Contact("Major", "0123456789", email: "majordalim@gamil.com"),
+  );
+  myBook.addContact(Contact("Riya", "0170000000", email: "riya@gmail.com"));
+  myBook.addContact(Contact("Alice", "0151111111", email: "alice@gmail.com"));
   myBook.addContact(Contact("John", "0169999999"));
   myBook.addContact(Contact("Mahi", "0148888888"));
 
@@ -419,4 +467,19 @@ void main() {
   myBook.sortContact();
   myBook.printAllContact();
   myBook.searchContact("major");
+
+  print("\nTask Manager App (Console Version)");
+
+  TaskManager mytask = TaskManager();
+  mytask.addTask(Task("Study Dart", "high"));
+  mytask.addTask(Task("Grocery Shopping", "low"));
+  mytask.addTask(Task("Pay Bills", "medium"));
+  mytask.addTask(Task("Exercise", "medium"));
+  mytask.addTask(Task("Learn Flutter", "high"));
+
+  mytask.showAllTask();
+  mytask.filterByPriority("High");
+  mytask.markCompleted("Exercise");
+  mytask.filterByPriority("medium");
+  mytask.showAllTask();
 }
