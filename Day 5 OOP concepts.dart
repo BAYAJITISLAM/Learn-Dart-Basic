@@ -1,8 +1,4 @@
-//Student Record System
-
-import 'dart:collection';
-import 'dart:io';
-
+//Student Record System 
 class Student {
   String name;
   int id;
@@ -354,7 +350,7 @@ class TaskManager {
   filterByPriority(String priority) {
     print("\n🔍 $priority Priority Tasks:");
     for (var task in tasks) {
-      if (task.priority.toLowerCase().contains(priority.toLowerCase())) {
+      if (task.priority.toLowerCase().contains(priority.toString())) {
         var checkBox = task.isCompleted ? "[x]" : "[ ]";
         print("- $checkBox ${task.name} (Priority: ${task.priority})");
       }
@@ -478,7 +474,7 @@ void main() {
   mytask.addTask(Task("Learn Flutter", "high"));
 
   mytask.showAllTask();
-  mytask.filterByPriority("High");
+  mytask.filterByPriority("medium");
   mytask.markCompleted("Exercise");
   mytask.filterByPriority("medium");
   mytask.showAllTask();
