@@ -1,5 +1,10 @@
 //Student Record System
 
+import 'dart:async';
+
+import 'Advance Function Day  37.dart';
+import 'Basic OOP Day 4.dart';
+
 class Student {
   String name;
   int id;
@@ -630,6 +635,112 @@ class CourseFactory {
   }
 }
 
+//Library with Review System
+
+class Books {
+  String title;
+  String author;
+  List<Review> review = [];
+
+  Books(this.title, this.author);
+
+  addReviw(Review reviw) {
+    review.add(reviw);
+  }
+
+  printView() {
+    for (var rev in review) {
+      print("-${"⭐" * rev.rating}  by ${rev.reviewerName}: ${rev.comment}");
+    }
+  }
+}
+
+class Review {
+  String reviewerName;
+  int rating;
+  String comment;
+
+  Review(this.reviewerName, this.rating, this.comment);
+}
+
+//Invoice Generator System
+
+class ProductInvoice {
+  String name;
+  String category;
+  double price;
+
+  ProductInvoice(this.name, this.category, this.price);
+}
+
+class CustomerInvoice {
+  String name;
+  List<ProductInvoice> cart = [];
+
+  CustomerInvoice(this.name);
+
+  addToCart(ProductInvoice product) {
+    cart.add(product);
+  }
+
+  checkOut() {
+    print("🧾 Invoice for $name\n");
+
+    double total = 0;
+    double totalSavings = 0;
+
+    print("🛒 Cart:");
+    for (var product in cart) {
+      var strategy = DiscountFactory.create(product.category);
+      double finalPrice = strategy.applyDiscount(product.price);
+      double saving = product.price - finalPrice;
+
+      print(
+        "- ${product.name} (${product.category}): ${product.price} → ৳${finalPrice.round()} after discount",
+      );
+
+      total += finalPrice;
+      totalSavings += saving;
+    }
+    print("\nTotal: ৳${total.round()}");
+    print("Total Savings: ৳${totalSavings.round()}");
+  }
+}
+
+abstract class DiscountStrategy {
+  double applyDiscount(double price);
+}
+
+class ElectronicsDiscount extends DiscountStrategy {
+  @override
+  double applyDiscount(double price) => price * 0.90; // 10% off
+}
+
+class GroceryDiscount extends DiscountStrategy {
+  @override
+  double applyDiscount(double price) => price * 0.95; // 5% off
+}
+
+class FashionDiscount extends DiscountStrategy {
+  @override
+  double applyDiscount(double price) => price * 0.90; // 10% off
+}
+
+class DiscountFactory {
+  static DiscountStrategy create(String category) {
+    switch (category.toLowerCase()) {
+      case "electronics":
+        return ElectronicsDiscount();
+      case "fashion":
+        return ElectronicsDiscount();
+      case "grocery":
+        return ElectronicsDiscount();
+      default:
+        throw Exception("No Discount Strategy For $category");
+    }
+  }
+}
+
 void main() {
   print("\nStudent Record System\n");
 
@@ -774,4 +885,22 @@ void main() {
   course1.enroll("Bayajit");
   course2.enroll("Riad");
   course2.allLogs();
+
+  print("\n-Library with Review System");
+
+  Books book = Books('Dart', "Major");
+  book.addReviw(Review("Bayajit", 4, "Good  Learning"));
+  book.printView();
+
+  print("\nShoping Cart");
+  ProductInvoice p1 = ProductInvoice('Tv', "Electronics", 50000);
+  ProductInvoice p2 = ProductInvoice('Shirt', "Fashion", 1500);
+  ProductInvoice p3 = ProductInvoice('Rice', "Grocery", 1000);
+
+  CustomerInvoice c1 = CustomerInvoice("Bayajit");
+  c1.addToCart(p1);
+  c1.addToCart(p2);
+  c1.addToCart(p3);
+
+  c1.checkOut();
 }
