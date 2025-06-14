@@ -1,4 +1,5 @@
-//Student Record System 
+//Student Record System
+
 class Student {
   String name;
   int id;
@@ -366,6 +367,269 @@ class TaskManager {
   }
 }
 
+//Payment System with Polymorphism
+
+mixin Logger {
+  List<String> log = [];
+
+  addLogs(String logs) {
+    log.add(logs);
+    print("log: $logs");
+  }
+}
+
+abstract class PaymentGateway with Logger {
+  void pay(double amount) {}
+}
+
+class BkashPayment extends PaymentGateway {
+  @override
+  void pay(double amount) {
+    print("-Paid $amount using Bkash");
+    addLogs("Paid $amount using Bkash");
+  }
+}
+
+class NagadPayment extends PaymentGateway {
+  @override
+  void pay(double amount) {
+    print("-Paid $amount using Nagad");
+    addLogs("Paid $amount using Nagad");
+  }
+}
+
+class PaymentFactory {
+  static PaymentGateway create(String selectPaymentGateway) {
+    if (selectPaymentGateway.toLowerCase() == "Bkash".toLowerCase()) {
+      return BkashPayment();
+    } else if (selectPaymentGateway == "Nagad") {
+      return NagadPayment();
+    } else {
+      throw Exception("Invalid Payment Method");
+    }
+  }
+}
+
+class PaymentProcessor {
+  void process(PaymentGateway gateway, double amount) {
+    gateway.pay(amount);
+  }
+}
+
+//Online Delivery System
+
+mixin LoggerMixin {
+  static List<String> logs = [];
+
+  addlog(msg) {
+    logs.add(msg);
+  }
+
+  printLogs() {
+    print("\nAll Logs");
+    for (var log in logs) {
+      print(log);
+    }
+  }
+}
+
+abstract class DeliveryPartner with LoggerMixin {
+  void deliver(String location, double distance);
+}
+
+class PathaoDelivery extends DeliveryPartner {
+  @override
+  void deliver(String location, double distance) {
+    print("🚴 Pathao delivering to [$location] — [$distance] km");
+    addlog("🚴 Pathao delivering to [$location] — [$distance] km");
+  }
+}
+
+class UberEatsDelivery extends DeliveryPartner {
+  @override
+  void deliver(String location, double distance) {
+    print("🚴 UberEats  delivering to [$location] — [$distance] km");
+    addlog("🚴 UberEats  delivering to [$location] — [$distance] km");
+  }
+}
+
+class FoodPandaDelivery extends DeliveryPartner {
+  @override
+  void deliver(String location, double distance) {
+    print("🚴 FoodPanda  delivering to [$location] — [$distance] km");
+    addlog("🚴 FoodPanda  delivering to [$location] — [$distance] km");
+  }
+}
+
+class FactoryDelivry {
+  static DeliveryPartner create(String serviceName) {
+    if (serviceName.toLowerCase() == "Pathao".toLowerCase()) {
+      return PathaoDelivery();
+    } else if (serviceName.toLowerCase() == "UberEats".toLowerCase()) {
+      return UberEatsDelivery();
+    } else if (serviceName.toLowerCase() == "FoodPanda".toLowerCase()) {
+      return FoodPandaDelivery();
+    } else {
+      throw Exception("Invalid Service");
+    }
+  }
+}
+
+//Build a Delivery Tracking System with Composition
+
+class DeliveryAddress {
+  String state;
+  String city;
+  double distance;
+
+  DeliveryAddress(this.state, this.city, this.distance);
+}
+
+class Customer {
+  String name;
+  String address;
+  String service;
+
+  List<DeliveryAddress> deliveryAddress = [];
+
+  Customer(this.name, this.address, this.service);
+
+  factory Customer.create(String name, String address, String service) {
+    address = address.toLowerCase();
+    return Customer(name, address, service);
+  }
+
+  void requestDelivery() {
+    DeliveryPartnerFactory.partner(service).deliver(this);
+  }
+}
+
+abstract class DeliveryPartnerTracking {
+  deliver(Customer customer) {}
+}
+
+class PathaoRider extends DeliveryPartnerTracking {
+  List<Map<String, dynamic>> cityList = [
+    {"sherpur": 20.1, "jhinaigati": 40.2},
+  ];
+
+  @override
+  deliver(Customer customer) {
+    for (var city in cityList) {
+      if (city.containsKey(customer.address)) {
+        print(
+          "🚴 Pathao delivering to ${customer.name}, ${customer.address} (${city[customer.address]} km)",
+        );
+      }
+    }
+  }
+}
+
+class UberRider extends DeliveryPartnerTracking {
+  List<Map<String, dynamic>> cityList = [
+    {"sherpur": 20.1, "jhinaigati": 40.2},
+  ];
+
+  @override
+  deliver(Customer customer) {
+    for (var city in cityList) {
+      if (city.containsKey(customer.address)) {
+        print(
+          "🚴 Uber delivering to ${customer.name}, ${customer.address} (${city[customer.address]} km)",
+        );
+      }
+    }
+  }
+}
+
+class FoodPandaRider extends DeliveryPartnerTracking {
+  List<Map<String, dynamic>> cityList = [
+    {"sherpur": 20.1, "jhinaigati": 40.2},
+  ];
+
+  @override
+  deliver(Customer customer) {
+    for (var city in cityList) {
+      if (city.containsKey(customer.address.toLowerCase())) {
+        print(
+          "🚴 FoodPanda delivering to ${customer.name}, ${customer.address} (${city[customer.address]} km)",
+        );
+      }
+    }
+  }
+}
+
+class DeliveryPartnerFactory {
+  static DeliveryPartnerTracking partner(String service) {
+    switch (service.toLowerCase()) {
+      case "pathao":
+        return PathaoRider();
+      case "uber":
+        return UberRider();
+      case "foodpanda":
+        return FoodPandaRider();
+      default:
+        throw Exception("Invalid delivery partner");
+    }
+  }
+}
+
+// Online Course Platform (Level 5 Challenge)
+
+mixin LoggerMixinCourse {
+  List<String> logs = [];
+
+  addLogs(msg) {
+    logs.add(msg);
+  }
+
+  allLogs() {
+    print("\nAll Logs\n");
+    for (var log in logs) {
+      print(log);
+    }
+  }
+}
+
+abstract class Course with LoggerMixinCourse {
+  String title;
+  Course(this.title);
+  void enroll(String studentName) {}
+}
+
+class FreeCourse extends Course {
+  FreeCourse(String title) : super(title);
+
+  @override
+  void enroll(String studentName) {
+    print("$studentName enrolled in Free Course: $title");
+    addLogs("$studentName enrolled in Free Course: $title");
+  }
+}
+
+class PaidCourse extends Course {
+  double? fee;
+  PaidCourse(String title, this.fee) : super(title);
+
+  @override
+  void enroll(String studentName) {
+    print("$studentName enrolled in Paid Course: $title for ৳$fee");
+    addLogs("$studentName enrolled in Paid Course: $title for ৳$fee");
+  }
+}
+
+class CourseFactory {
+  static Course create(String type, String title, [double? fee]) {
+    if (type == "free") {
+      return FreeCourse(title);
+    } else if (type == "paid") {
+      return PaidCourse(title, fee);
+    } else {
+      throw Exception("Please Select You Type");
+    }
+  }
+}
+
 void main() {
   print("\nStudent Record System\n");
 
@@ -478,4 +742,36 @@ void main() {
   mytask.markCompleted("Exercise");
   mytask.filterByPriority("medium");
   mytask.showAllTask();
+
+  print(": \nMulti-Payment Gateway System");
+
+  PaymentProcessor processor = PaymentProcessor();
+
+  PaymentGateway method1 = PaymentFactory.create("bkash");
+  processor.process(method1, 500);
+
+  PaymentGateway method2 = PaymentFactory.create("Nagad");
+  processor.process(method2, 200);
+
+  print("\nOnline Delivery System\n");
+
+  DeliveryPartner delivery1 = FactoryDelivry.create("FoodPanda");
+  delivery1.deliver("Dhaka", 6.9);
+  DeliveryPartner delivery2 = FactoryDelivry.create("Pathao");
+  delivery2.deliver("Gazipur", 20);
+
+  print("\nBuild a Delivery Tracking System with Composition\n");
+
+  Customer customer1 = Customer("Bayajit", "sherpur", "pathao");
+  Customer customer2 = Customer("Major", "jhinaigati", "uber");
+  customer1.requestDelivery(); // Nice and clean!
+  customer2.requestDelivery();
+
+  print("\n Online Course Platform\n");
+
+  Course course1 = CourseFactory.create("free", "Flutter");
+  Course course2 = CourseFactory.create("paid", "Dart Master", 12000);
+  course1.enroll("Bayajit");
+  course2.enroll("Riad");
+  course2.allLogs();
 }
